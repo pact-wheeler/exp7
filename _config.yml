@@ -1,0 +1,7 @@
+title: Daniel Hayward's Blog
+description: Here is a description of my blog
+baseurl: "/exp7"
+url: "https://pact-wheeler.github.io"
+
+# Build settings
+markdown: kramdown
