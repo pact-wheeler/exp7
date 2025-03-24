@@ -3,7 +3,7 @@ layout: default
 title: Home
 ---
 
-My name is Daniel, welcome to my blog! Below, my posts are in roughly chronological order,[here]({{ site.baseurl }}/tags.html), they're by tag. 
+My name is Daniel, welcome to my blog! Below, my posts are in roughly chronological order below. [Here]({{ site.baseurl }}/tags.html), they're by tag. 
 
 I am a freelance consultant that mostly works with construction companies though I've worked in manufacturing, I have clients who have retail shops, and financial advising. I love helping owners figure out how to use their data, without another subscription.
 
