@@ -5,8 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}</title>
     <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/tufte.css">
+    <style>
+        /* Header Styles */
+        header {
+            margin: 1rem 0 2rem 0;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        header nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+        
+        header nav li {
+            margin-right: 1.5rem;
+        }
+        
+        header nav a {
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{{ site.baseurl }}/">Home</a></li>
+                <li><a href="{{ site.baseurl }}/now.html">Now</a></li>
+                <li><a href="danielphayward.com/business">Business</a></li>
+            </ul>
+        </nav>
+    </header>
+
     <article>
         <h1>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</h1>
         <section>
