@@ -5,6 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}</title>
     <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/tufte.css">
+    <style>
+        /* Header Styles */
+        header nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center; /* Add this to vertically center items */
+}
+
+header nav li {
+    margin-right: 1.5rem;
+    display: flex; /* Add this */
+    align-items: center; /* Add this to ensure list items are vertically centered */
+}
+
+header nav a {
+    text-decoration: none;
+    line-height: 1; /* Ensures consistent line height */
+    display: inline-block; /* Can help with precise vertical alignment */
+}
+    </style>
 </head>
 <body>
     <header>
