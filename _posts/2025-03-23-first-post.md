@@ -8,6 +8,8 @@ This is my first post with Tufte CSS styling.
 
 Here's a margin note.^[This is a margin note.]
 
-Here is some text with a sidenote.<label for="sn-example" class="margin-toggle sidenote-number"></label>
-<input type="checkbox" id="sn-example" class="margin-toggle"/>
-<span class="sidenote">This is the sidenote content.</span>
+<label for="mn-demo" class="margin-toggle">&#8853;</label>
+<input type="checkbox" id="mn-demo" class="margin-toggle"/>
+<span class="marginnote">
+  This is a margin note. Notice there isn’t a number preceding the note. Oh, I noticed.
+</span>
