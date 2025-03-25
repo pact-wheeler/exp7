@@ -1,13 +1,11 @@
 title: Daniel Hayward's Blog
 description: A description.
-baseurl: "/exp7"
-url: "https://pact-wheeler.github.io"
-
+baseurl: ""
+url: "https://danielphayward.com"
 # Build settings
 markdown: kramdown
 kramdown:
   input: GFM
-
 # Collections
 collections:
   posts:
