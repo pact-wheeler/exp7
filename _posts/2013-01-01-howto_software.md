@@ -1,4 +1,9 @@
-# Software Reference
+---
+layout: default
+title: How to Software
+date: 2025-03-26
+tags: non-fiction
+---
 
 - Change your default search to Kagi
 
