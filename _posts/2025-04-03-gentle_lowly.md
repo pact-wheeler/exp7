@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Review: Gentle and Lowly
+title: Review - Gentle and Lowly
 date: 2025-04-03
 tags: theology non-fiction
 ---
