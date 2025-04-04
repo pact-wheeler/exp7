@@ -1,3 +1,9 @@
+---
+layout: default
+title: No Free Lunch
+date: 2024-01-01
+tags: non-fiction
+---
 If you have something to say, ChatGPT can't replace you. 
 
 Something I've been thinking about for the last few weeks is, "Why write when AI can do it faster? Why should anyone?" 
