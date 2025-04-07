@@ -1,6 +1,5 @@
 title: Daniel Hayward's Blog
 description: A description.
-plugins: jekyll-feed
 baseurl: ""
 url: "https://danielphayward.com"
 # Build settings
