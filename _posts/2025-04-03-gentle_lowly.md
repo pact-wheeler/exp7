@@ -2,7 +2,7 @@
 layout: default
 title: "Review: Gentle and Lowly"
 date: 2025-04-03
-tags: theology non-fiction "test tag with space"
+tags: theology non-fiction
 ---
 ## Summary
 The main point of Gentle and Lowly by Dane Ortlund is that Christ's heart is gentle and lowly<label for="mn-surprise" class="margin-toggle">&#8853;</label>
