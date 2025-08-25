@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Body of death
-permalink: /body_of_death
+permalink: /body_of_death/
 date: 2013-01-01
 tags: fiction
 ---

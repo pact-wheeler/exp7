@@ -1,6 +1,7 @@
 ---
 layout: default
 title: How to Software
+permalink: /software/
 date: 2025-03-26
 tags: non-fiction
 ---

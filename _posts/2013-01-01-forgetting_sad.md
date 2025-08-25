@@ -1,6 +1,7 @@
 ---
 layout: default
 title: The Forgetting of Sad
+permalink: /sad/
 date: 2013-01-01
 tags: fiction
 ---
