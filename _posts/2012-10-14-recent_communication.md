@@ -3,6 +3,7 @@ layout: default
 title: In Reference to your Recent Communication
 date: 2012-10-14
 tags: fiction humor 
+permalink: /recent_communication/
 
 ---
 
