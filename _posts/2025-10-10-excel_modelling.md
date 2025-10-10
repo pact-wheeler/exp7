@@ -5,8 +5,6 @@ date: 2025-10-10
 tags: excel
 ---
 
-# Standards for Excel Modeling
-
 ## Overall
 
 > Excel models should be flexible, appropriate, structured, and transparent. 
@@ -117,5 +115,6 @@ Thoughtfully use ROUND when needed, not at every step. You should only need to u
 ## Format Rules
 
 Here are the rules I follow for consistency and pedantry: mark exports with red font, imports with blue font, counter-flows with gray shade, user inputs with light yellow font. Consistently apply header and sub header column formatting. Include at least one empty column or row between calculation blocks. Do not merge cells, use Center across selections.
+
 
 If you're interested in the macro / standards sheet that I use, here's the [link](google.com).
