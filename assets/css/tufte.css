@@ -230,8 +230,13 @@ figure.fullwidth figcaption {
 a:link,
 a:visited {
     color: inherit;
+    text-decoration: underline;
     text-underline-offset: 0.1em;
     text-decoration-thickness: 0.05em;
+}
+
+a:hover {
+    font-weight: bold;
 }
 
 /* Sidenotes, margin notes, figures, captions */
@@ -303,7 +308,8 @@ code, pre > code {
     font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
     font-size: 1.0rem;
     line-height: 1.42;
-    -webkit-text-size-adjust: 100%; /* Prevent adjustments of font size after orientation changes in iOS. See https://github.com/edwardtufte/tufte-css/issues/81#issuecomment-261953409 */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
 }
 
 .sans > code {
