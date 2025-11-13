@@ -1,6 +1,6 @@
 ---
 layout: default
-title: How to: Sales Safari
+title: How to Sales Safari
 permalink: /safari/
 date: 2025-11-13
 tags: non-fiction how-to business
@@ -21,5 +21,6 @@ Recommendations - When people talk about pains, they tend to also talk about sol
 After going through the forum or sales call with what you've learned going under these headings, save it in a folder and reference it when considering your product. Ask yourself thoughtful questions. Write emails and copy that directly addresses these pains. If it's a forum, have an LLM compare your analysis with the text, see if it comes up with anything more. If it's a sales call, use Vibe to create a transcript and do the same thing.
 
 How do you find a forum if you don't have sales calls to reference? Using a search engine, google forums related to your topic. If you have direct competitors, go to their website to see if they have a forum, people love to complain. It could be an amazon product review page. Use your imagination.
+
 
 The customer does not care about your writing, or about your product. A customer does not buy your product because they like your product. A customer buys your product because they believe it will turn them into a more awesome version of themselves.
