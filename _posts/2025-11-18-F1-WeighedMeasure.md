@@ -1,11 +1,10 @@
 ---
 layout: default
-title: Flow 1:Weighed & Measure
+title: Weighed & Measure
 permalink: /flow/01_weighed_measured
 date: 2025-11-18
 tags: fiction fantasy flow
 series_order: 1
-series: flow
 ---
 
 Peres divided the roasted berries from darkest to lightest in a tray that had twelve wells. Darkness pressed to the windows, all fowl and forest creatures slept. Peres had done this for thousands of hours before and would continue to until he stopped practicing alchemy. Bifocals rested on the end of his nose, he held in his hands two metal knives that were dull. Their grip was a comfortable for the task, some kind of burled dark wood with curls of white in it. A white gas lamp lit his work. When he was young, the master he learned under insisted this work be done in daylight, but candlelight was inconsistent and you'd often find that the divisions of the berries were wrong. It would be mostly right, but you'd have to check any work done by candlelight twice and sometimes, depending on how rested you were, time was better spent doing other things. 
@@ -52,5 +51,6 @@ He spoke slowly and quietly, but his voice carried, "Child, you have gone too fa
 Peres took three deep breaths, it was one thing to consider jumping a cliff and another to step off the ledge. 
 
 "I do," he took off his ring that signified his membership in the guild and dropped it, and then removed his cloak and dropped that on top and turned on his heel to walk.
+
 
 "Peres," said behind his back, but then someone else said "just leave it." And he left the way he had come.
