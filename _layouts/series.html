@@ -2,12 +2,6 @@
 layout: default
 ---
 <h2>{{ page.tag }}</h2>
-<ul>
-{% assign series_posts = site.tags[page.tag] | sort: 'series_order' %}
-{% for post in series_posts %}
-  <li>
-    <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
-    <small>{{ post.date | date: "%Y-%m-%d" }}</small>
-  </li>
-{% endfor %}
-</ul>
+<p>DEBUG: Looking for tag "{{ page.tag }}"</p>
+<p>DEBUG: site.tags has these keys: {{ site.tags | map: "first" | join: ", " }}</p>
+<p>DEBUG: site.tags[page.tag] = {{ site.tags[page.tag] }}</p>
