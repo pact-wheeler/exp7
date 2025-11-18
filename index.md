@@ -5,7 +5,7 @@ title: Home
 
 My name is Daniel, welcome! Below, my posts are in roughly chronological order. If you want to see them by tag, click, [here.]({{ site.baseurl }}/tags.html)
 
-My writing includes essays on faith, business expertise, data and some fiction. Feel free to reach out at me@ the url of this page.
+My writing follows no particular order or sense, I publish it as it occurs to me.
 
 {% assign postsByYearMonth = site.posts | group_by_exp:"post", "post.date | date: '%B %Y'" %}
 {% for yearMonth in postsByYearMonth %}
