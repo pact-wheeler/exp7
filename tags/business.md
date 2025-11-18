@@ -1,6 +1,6 @@
 ---
 layout: tag-single
-tag: Business
+tag: business
 title: Business Posts
 permalink: /business/
 ---
