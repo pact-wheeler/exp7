@@ -1,0 +1,13 @@
+---
+layout: default
+---
+<h2>{{ page.tag | capitalize }} Series</h2>
+<ul>
+{% assign series_posts = site.tags[page.tag] | sort: 'series_order' %}
+{% for post in series_posts %}
+  <li>
+    <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+    <small>{{ post.date | date: "%Y-%m-%d" }}</small>
+  </li>
+{% endfor %}
+</ul>
