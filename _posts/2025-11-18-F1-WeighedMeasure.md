@@ -11,7 +11,7 @@ Peres divided the roasted berries from darkest to lightest in a tray that had tw
 
 But that was a lifetime ago, now Peres was on the chamber of guildmasters. He had trained a dozen alchemists. The better sort of alchemy, if the other guild could be called alchemy at all. Commoners called both magics alchemy, but that was calling water and blood the same, or gold and lead. Were they both heavy? Yes, but lead was used for the meanest purpose and the other was a prize that monarchs sought. 
 
-Peres would never deny that leaves had power, he had seen it himself. Seen the dreams, but he knew that it was wrong in his heart. Mixing sleep and flow was 
+Peres would never deny that leaves had power, he had seen it himself. Seen the dreams, but he knew that it was wrong in his heart. Mixing sleep and flow was too close to the firmament that held the waters back. If that barrier broke, who knew, the next age? Or would all be lost.
 
 The orders he had would do for the lightest roast of the berries and then a drop of liquor at the end. Young alchemists often adulterated the drinks orders of magnitude wrong. They could follow prescribed recipes but they had no patience for research, nor the stomach for failed recipes. Flow had stolen weeks and two months once, from Peres but then he came back to himself, and wrote down his experiences. The guild benefited from his experiment an inestimable value, alchemy required not lack of fear, but the willingness to go into that unknown. To be consumed by the water and believe you would eventually come back up.
 
@@ -54,4 +54,5 @@ Peres took three deep breaths, it was one thing to consider jumping a cliff and 
 
 
 "Peres," said behind his back, but then someone else said "just leave it." And he left the way he had come.
+
 
