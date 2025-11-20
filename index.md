@@ -7,10 +7,11 @@ My name is Daniel, welcome! Below, my posts are in roughly chronological order. 
 
 My writing follows no particular order or sense, I publish it as it occurs to me.
 
-{% assign postsByYearMonth = site.posts | group_by_exp:"post", "post.date | date: '%B %Y'" %}
+{% assign visible_posts = site.posts | where_exp: "post", "post.hidden != true" %}
+{% assign postsByYearMonth = visible_posts | group_by_exp:"post", "post.date | date: '%B %Y'" %}
 {% for yearMonth in postsByYearMonth %}
 **{{ yearMonth.name }}**
 {% for post in yearMonth.items %}
-* [{{ post.title }}]({{ post.url }}) - {{ post.date | date: "%B %d, %Y" }}
+* [{{ post.title }}]({{ post.url }}) - {{ post.date | date: "%B %d, %Y" }} | {% assign words = post.content | number_of_words | divided_by: 100.0 | round | times: 100 %}{{ words }} words | {{ post.tags | join: ", " }}
 {% endfor %}
 {% endfor %}
