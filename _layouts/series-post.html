@@ -1,0 +1,40 @@
+---
+layout: default
+---
+{% if page.series %}
+  {% assign series_posts = site.posts | where: "series", page.series | sort: 'series_order' %}
+  {% assign current_index = nil %}
+  {% for post in series_posts %}
+    {% if post.url == page.url %}
+      {% assign current_index = forloop.index0 %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+
+  {% if current_index %}
+    {% assign prev_index = current_index | minus: 1 %}
+    {% assign next_index = current_index | plus: 1 %}
+    {% if prev_index >= 0 %}
+      {% assign prev_post = series_posts[prev_index] %}
+    {% endif %}
+    {% if next_index < series_posts.size %}
+      {% assign next_post = series_posts[next_index] %}
+    {% endif %}
+  {% endif %}
+
+  <nav class="series-nav">
+    {% if prev_post %}<a href="{{ site.baseurl }}{{ prev_post.url }}">← Previous</a>{% else %}<span></span>{% endif %}
+    <a href="{{ site.baseurl }}/">Home</a>
+    {% if next_post %}<a href="{{ site.baseurl }}{{ next_post.url }}">Next →</a>{% else %}<span></span>{% endif %}
+  </nav>
+{% endif %}
+
+{{ content }}
+
+{% if page.series %}
+  <nav class="series-nav">
+    {% if prev_post %}<a href="{{ site.baseurl }}{{ prev_post.url }}">← Previous</a>{% else %}<span></span>{% endif %}
+    <a href="{{ site.baseurl }}/">Home</a>
+    {% if next_post %}<a href="{{ site.baseurl }}{{ next_post.url }}">Next →</a>{% else %}<span></span>{% endif %}
+  </nav>
+{% endif %}

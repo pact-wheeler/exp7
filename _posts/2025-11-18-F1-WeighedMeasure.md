@@ -1,9 +1,10 @@
 ---
-layout: default
+layout: series-post
 title: Weighed & Measured
-permalink: /flow/01_weighed_measured
+permalink: /flow/01
 date: 2025-11-18
-tags: flow
+tags: fiction
+series: flow
 series_order: 1
 ---
 
@@ -54,5 +55,4 @@ Peres took three deep breaths, it was one thing to consider jumping a cliff and 
 
 
 "Peres," said behind his back, but then someone else said "just leave it." And he left the way he had come.
-
 
