@@ -1,6 +1,6 @@
 ---
 layout: default
-title: No Free Lunch
+title: Your Voice Cannot Be Taken
 date: 2024-01-01
 tags: non-fiction
 ---

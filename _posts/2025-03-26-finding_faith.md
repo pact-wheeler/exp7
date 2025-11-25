@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Finding Faith
+permalink: /finding-faith/
 date: 2025-03-26
 tags: theology non-fiction
 ---

@@ -2,7 +2,7 @@
 layout: default
 title: Standards for Excel Modeling
 date: 2025-10-10
-tags: excel
+tags: excel business
 ---
 
 ## Overall
