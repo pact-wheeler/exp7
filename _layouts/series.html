@@ -1,8 +1,7 @@
 ---
 layout: default
 ---
-<h2>{{ page.series }}</h2>
-<ul>
+<ol>
 {% assign series_posts = site.posts | where: "series", page.series | sort: 'series_order' %}
 {% for post in series_posts %}
   <li>
@@ -10,4 +9,4 @@ layout: default
     <small>{{ post.date | date: "%Y-%m-%d" }}</small>
   </li>
 {% endfor %}
-</ul>
+</ol>
