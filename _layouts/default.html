@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}</title>
+    <link rel="alternate" type="application/atom+xml" title="{{ site.title }}" href="/feed.xml">
     <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/tufte.css">
     <link rel="icon" type="image/x-icon" href="{{ site.baseurl }}/assets/images/favicon.ico">
     <style>
@@ -13,19 +14,19 @@
     padding: 0;
     margin: 0;
     display: flex;
-    align-items: center; /* Add this to vertically center items */
+    align-items: center;
 }
 
 header nav li {
     margin-right: 1.5rem;
-    display: flex; /* Add this */
-    align-items: center; /* Add this to ensure list items are vertically centered */
+    display: flex;
+    align-items: center;
 }
 
 header nav a {
     text-decoration: none;
-    line-height: 1; /* Ensures consistent line height */
-    display: inline-block; /* Can help with precise vertical alignment */
+    line-height: 1;
+    display: inline-block;
 }
     </style>
 </head>
@@ -38,6 +39,7 @@ header nav a {
                 <li><a href="{{ site.baseurl }}/flow">flow</a></li>
                 <li><a href="{{ site.baseurl }}/adelphos">adelphos</a></li>
                 <li><a href="{{ site.baseurl }}/business">business</a></li>
+                
             </ul>
         </nav>
     </header>
@@ -48,6 +50,9 @@ header nav a {
             {{ content }}
         </section>
     </article>
+     <footer>
+        <a href="{{ site.baseurl }}/feed.xml">subscribe to rss</a>
+     </footer>
     <script data-goatcounter="https://danielphayward.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
 </body>

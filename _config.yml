@@ -1,5 +1,6 @@
 title: Daniel Hayward's Blog
-description: A description.
+description: Essays and fiction from Daniel Hayward
+author: Daniel Hayward
 baseurl: ""
 plugins: ["jekyll-feed"]
 url: "https://danielphayward.com"
@@ -11,4 +12,4 @@ kramdown:
 collections:
   posts:
     output: true
-    permalink: /:year/:month/:day/:title:output_ext
+    permalink: /:slug/
