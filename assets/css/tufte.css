@@ -455,3 +455,25 @@ label.margin-toggle:not(.sidenote-number) {
         width: 100%;
     }
 }
+footer {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.series-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 2rem 0;
+}
+
+.series-nav a:first-child,
+.series-nav span:first-child {
+    text-align: left;
+}
+
+.series-nav a:last-child,
+.series-nav span:last-child {
+    text-align: right;
+}
+
