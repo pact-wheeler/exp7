@@ -14,7 +14,7 @@ Here's my analysis of crime data...
 <script type="text/javascript">
   var spec = {
     "$schema": "https://vega.github.io/schema/vega/v5.json",
-    "width": "container",
+    "width": 600,
     "height": {"step": 25},
     "padding": 5,
     "autosize": {"type": "fit-x", "contains": "padding"},
