@@ -17,7 +17,6 @@ Here's my analysis of crime data...
     "width": 600,
     "height": {"step": 25},
     "padding": 5,
-    "autosize": {"type": "fit-x", "contains": "padding"},
 
     "title": {
       "text": "Crime Rate per 100k",
@@ -82,6 +81,21 @@ Here's my analysis of crime data...
             "sort": {"field": "total_crime_proportion", "order": "ascending"},
             "ops": ["rank"],
             "as": ["rank"]
+          },
+          {
+            "type": "formula",
+            "as": "violent_value",
+            "expr": "datum.vcrimes_proportion"
+          },
+          {
+            "type": "formula",
+            "as": "property_value",
+            "expr": "datum.pcrimes_proportion"
+          },
+          {
+            "type": "formula",
+            "as": "total_value",
+            "expr": "datum.total_crime_proportion"
           }
         ]
       },
@@ -121,7 +135,7 @@ Here's my analysis of crime data...
           {
             "type": "formula",
             "as": "sortValue",
-            "expr": "sortOption == 'alphabetical' ? datum.state : sortOption == 'violent' ? datum.vcrimes_proportion : sortOption == 'property' ? datum.pcrimes_proportion : datum.total_crime_proportion"
+            "expr": "sortOption == 'alphabetical' ? datum.state : sortOption == 'violent' ? datum.violent_value : sortOption == 'property' ? datum.property_value : datum.total_value"
           }
         ]
       }
@@ -196,7 +210,7 @@ Here's my analysis of crime data...
             "x2": {"scale": "x", "field": "v1"},
             "fill": {"scale": "color", "field": "crimeTypeLabel"},
             "tooltip": {
-              "signal": "{'State': datum.state, 'Total Crime per 100k': format(datum.total_crime_proportion, ',.0f'), 'Rank': datum.rank}"
+              "signal": "{'State': datum.state, 'Total Crime per 100k': format(datum.total_value, ',.0f'), 'Rank': datum.rank}"
             }
           }
         }
