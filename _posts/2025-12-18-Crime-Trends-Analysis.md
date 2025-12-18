@@ -203,7 +203,7 @@ Here's my analysis of crime data...
       }
     ]
   };
-  vegaEmbed('#vis', spec, {actions: false});
+  vegaEmbed('#vis', spec, {actions: false}).catch(console.error);
 </script>
 
 More analysis text continues here...
