@@ -12,6 +12,6 @@ My writing follows no particular order or sense, I publish it as it occurs to me
 {% for yearMonth in postsByYearMonth %}
 **{{ yearMonth.name }}**
 {% for post in yearMonth.items %}
-* [{{ post.title }}]({{ post.url }}) <small>{{ post.date | date: "%B %d, %Y" }} | {% assign words = post.content | number_of_words | divided_by: 100.0 | round | times: 100 %}{{ words }} words | {{ post.tags | join: ", " }}</small>
+* [{{ post.title }}]({{ post.url }}) <small>{{ post.date | date: "%B %d, %Y" }} | {{ post.tags | join: ", " }}</small>
 {% endfor %}
 {% endfor %}
