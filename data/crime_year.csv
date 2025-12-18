@@ -1,4 +1,4 @@
-Year,State.1,Total Property Crimes,Total Violent Crimes,population,Violent Crimes per 100k,Property Crimes per 100k,Total Crime per 100k
+year,state,prop_crimes,violent_crimes,population,vcrimes_proportion,pcrimes_proportion,total_crime_proportion
 2016,Alabama,140657,25141,4863300,516.95,2892.21,3409.17
 2017,Alabama,137190,23979,4874747,491.9,2814.3,3306.2
 2018,Alabama,130598,23939,4887871,489.76,2671.88,3161.64
