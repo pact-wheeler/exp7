@@ -60,7 +60,7 @@ Here's my analysis of crime data...
     "data": [
       {
         "name": "source",
-        "url": "/assets/data/exp7/crime_year.csv",
+        "url": "/data/crime_year.csv",
         "format": {"type": "csv", "parse": "auto"}
       },
       {
