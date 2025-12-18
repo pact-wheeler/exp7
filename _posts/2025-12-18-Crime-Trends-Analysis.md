@@ -93,3 +93,110 @@ Here's my analysis of crime data...
           },
           {
             "type": "formula",
+            "as": "crimeTypeLabel",
+            "expr": "datum.crimeType == 'Violent Crimes per 100k' ? 'Violent' : 'Property'"
+          },
+          {
+            "type": "formula",
+            "as": "shouldShow",
+            "expr": "(datum.crimeTypeLabel == 'Violent' && showViolent) || (datum.crimeTypeLabel == 'Property' && showProperty)"
+          },
+          {"type": "filter", "expr": "datum.shouldShow"}
+        ]
+      },
+      {
+        "name": "stacked",
+        "source": "longFormat",
+        "transform": [
+          {
+            "type": "stack",
+            "groupby": ["State.1"],
+            "field": "value",
+            "sort": {"field": "crimeTypeLabel", "order": "descending"},
+            "as": ["v0", "v1"]
+          },
+          {
+            "type": "formula",
+            "as": "sortValue",
+            "expr": "sortOption == 'alphabetical' ? datum['State.1'] : sortOption == 'violent' ? datum['Violent Crimes per 100k'] : sortOption == 'property' ? datum['Property Crimes per 100k'] : datum['Total Crime per 100k']"
+          }
+        ]
+      }
+    ],
+    "scales": [
+      {
+        "name": "y",
+        "type": "band",
+        "domain": {
+          "data": "stacked",
+          "field": "State.1",
+          "sort": {
+            "field": "sortValue",
+            "op": "max",
+            "order": "ascending"
+          }
+        },
+        "range": "height",
+        "padding": 0.1
+      },
+      {
+        "name": "x",
+        "type": "linear",
+        "domain": [0, 5000],
+        "range": "width",
+        "nice": true
+      },
+      {
+        "name": "color",
+        "type": "ordinal",
+        "domain": ["Violent", "Property"],
+        "range": ["#708090", "#8FBC8F"]
+      }
+    ],
+    "axes": [
+      {
+        "orient": "bottom",
+        "scale": "x",
+        "title": null,
+        "grid": false
+      },
+      {
+        "orient": "left",
+        "scale": "y",
+        "title": null,
+        "grid": false
+      }
+    ],
+    "legends": [
+      {
+        "fill": "color",
+        "title": null,
+        "orient": "bottom",
+        "direction": "horizontal",
+        "padding": 10,
+        "offset": 0
+      }
+    ],
+    "marks": [
+      {
+        "type": "rect",
+        "from": {"data": "stacked"},
+        "encode": {
+          "enter": {
+            "y": {"scale": "y", "field": "State.1"},
+            "height": {"scale": "y", "band": 1},
+            "x": {"scale": "x", "field": "v0"},
+            "x2": {"scale": "x", "field": "v1"},
+            "fill": {"scale": "color", "field": "crimeTypeLabel"},
+            "tooltip": {
+              "signal": "{'State': datum['State.1'], 'Total Crime per 100k': format(datum['Total Crime per 100k'], ',.0f'), 'Rank': datum.rank}"
+            }
+          }
+        }
+      }
+    ]
+  };
+  vegaEmbed('#vis', spec, {actions: false});
+</script>
+
+More analysis text continues here...
