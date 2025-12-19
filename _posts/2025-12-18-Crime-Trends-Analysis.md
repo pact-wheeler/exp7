@@ -4,7 +4,7 @@ title: Crime Trend Analysis
 date: 2025-12-18
 tags: non-fiction essay data-visualization
 ---
-Here's my analysis of crime data...
+Here's my analysis of crime data...4:00PM
 
 <div id="vis"></div>
 
@@ -63,19 +63,9 @@ Here's my analysis of crime data...
       {
         "name": "source",
         "url": "/data/crime_year.csv",
-        "format": {"type": "csv", "parse": "auto"}
-      },
-      {
-        "name": "filtered",
-        "source": "source",
+        "format": {"type": "csv", "parse": "auto"},
         "transform": [
-          {"type": "filter", "expr": "datum.year == selectedYear"}
-        ]
-      },
-      {
-        "name": "ranked",
-        "source": "filtered",
-        "transform": [
+          {"type": "filter", "expr": "datum.year == selectedYear"},
           {
             "type": "window",
             "sort": {"field": "total_crime_proportion", "order": "ascending"},
@@ -84,58 +74,52 @@ Here's my analysis of crime data...
           },
           {
             "type": "formula",
-            "as": "violent_value",
+            "as": "violent_for_sort",
             "expr": "datum.vcrimes_proportion"
           },
           {
             "type": "formula",
-            "as": "property_value",
+            "as": "property_for_sort",
             "expr": "datum.pcrimes_proportion"
           },
           {
             "type": "formula",
-            "as": "total_value",
+            "as": "total_for_sort",
             "expr": "datum.total_crime_proportion"
           }
         ]
       },
       {
-        "name": "longFormat",
-        "source": "ranked",
+        "name": "bars",
+        "source": "source",
         "transform": [
           {
             "type": "fold",
             "fields": ["vcrimes_proportion", "pcrimes_proportion"],
-            "as": ["crimeType", "value"]
+            "as": ["crime_type", "crime_value"]
           },
           {
             "type": "formula",
-            "as": "crimeTypeLabel",
-            "expr": "datum.crimeType == 'vcrimes_proportion' ? 'Violent' : 'Property'"
+            "as": "type_label",
+            "expr": "datum.crime_type == 'vcrimes_proportion' ? 'Violent' : 'Property'"
           },
           {
             "type": "formula",
-            "as": "shouldShow",
-            "expr": "(datum.crimeTypeLabel == 'Violent' && showViolent) || (datum.crimeTypeLabel == 'Property' && showProperty)"
+            "as": "show_this",
+            "expr": "(datum.type_label == 'Violent' && showViolent) || (datum.type_label == 'Property' && showProperty)"
           },
-          {"type": "filter", "expr": "datum.shouldShow"}
-        ]
-      },
-      {
-        "name": "stacked",
-        "source": "longFormat",
-        "transform": [
+          {"type": "filter", "expr": "datum.show_this"},
+          {
+            "type": "formula",
+            "as": "sort_key",
+            "expr": "sortOption == 'alphabetical' ? datum.state : sortOption == 'violent' ? datum.violent_for_sort : sortOption == 'property' ? datum.property_for_sort : datum.total_for_sort"
+          },
           {
             "type": "stack",
             "groupby": ["state"],
-            "field": "value",
-            "sort": {"field": "crimeTypeLabel", "order": "descending"},
-            "as": ["v0", "v1"]
-          },
-          {
-            "type": "formula",
-            "as": "sortValue",
-            "expr": "sortOption == 'alphabetical' ? datum.state : sortOption == 'violent' ? datum.violent_value : sortOption == 'property' ? datum.property_value : datum.total_value"
+            "field": "crime_value",
+            "sort": {"field": "type_label", "order": "descending"},
+            "as": ["y0", "y1"]
           }
         ]
       }
@@ -143,22 +127,18 @@ Here's my analysis of crime data...
     
     "scales": [
       {
-        "name": "y",
+        "name": "yscale",
         "type": "band",
         "domain": {
-          "data": "stacked",
+          "data": "bars",
           "field": "state",
-          "sort": {
-            "field": "sortValue",
-            "op": "max",
-            "order": "ascending"
-          }
+          "sort": {"field": "sort_key", "op": "max", "order": "ascending"}
         },
         "range": "height",
         "padding": 0.1
       },
       {
-        "name": "x",
+        "name": "xscale",
         "type": "linear",
         "domain": [0, 5000],
         "range": "width",
@@ -175,13 +155,13 @@ Here's my analysis of crime data...
     "axes": [
       {
         "orient": "bottom",
-        "scale": "x",
+        "scale": "xscale",
         "title": null,
         "grid": false
       },
       {
         "orient": "left",
-        "scale": "y",
+        "scale": "yscale",
         "title": null,
         "grid": false
       }
@@ -201,16 +181,16 @@ Here's my analysis of crime data...
     "marks": [
       {
         "type": "rect",
-        "from": {"data": "stacked"},
+        "from": {"data": "bars"},
         "encode": {
           "enter": {
-            "y": {"scale": "y", "field": "state"},
-            "height": {"scale": "y", "band": 1},
-            "x": {"scale": "x", "field": "v0"},
-            "x2": {"scale": "x", "field": "v1"},
-            "fill": {"scale": "color", "field": "crimeTypeLabel"},
+            "y": {"scale": "yscale", "field": "state"},
+            "height": {"scale": "yscale", "band": 1},
+            "x": {"scale": "xscale", "field": "y0"},
+            "x2": {"scale": "xscale", "field": "y1"},
+            "fill": {"scale": "color", "field": "type_label"},
             "tooltip": {
-              "signal": "{'State': datum.state, 'Total Crime per 100k': format(datum.total_value, ',.0f'), 'Rank': datum.rank}"
+              "signal": "{'State': datum.state, 'Total Crime per 100k': format(datum.total_for_sort, ',.0f'), 'Rank': datum.rank}"
             }
           }
         }
