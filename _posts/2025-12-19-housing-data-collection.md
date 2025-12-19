@@ -6,13 +6,13 @@ tags: non-fiction essay data-visualization
 ---
 Here's my analysis of crime data...
 
-<div id="vis"></div>
+<div id="vis1"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/vega@6"></script>
 <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 
 <script type="text/javascript">
-  var spec = {
+  var spec1 = {
     "$schema": "https://vega.github.io/schema/vega/v6.json",
     "width": 800,
     "height": 600,
@@ -201,7 +201,164 @@ Here's my analysis of crime data...
       }
     ]
   };
-  vegaEmbed('#vis', spec, {actions: false}).catch(console.error);
+  vegaEmbed('#vis1', spec1, {actions: false}).catch(console.error);
+</script>
+
+More analysis text continues here...
+
+<div id="vis2"></div>
+
+<script type="text/javascript">
+  var spec2 = {
+    "$schema": "https://vega.github.io/schema/vega/v6.json",
+    "width": 800,
+    "height": 600,
+    "padding": 5,
+
+    "title": {
+      "text": "Crime Rates per 100k by State and Year",
+      "fontSize": 18,
+      "anchor": "start",
+      "offset": 10
+    },
+    
+    "signals": [
+      {
+        "name": "showViolent",
+        "value": true,
+        "bind": {"input": "checkbox", "name": "Show Violent Crime "}
+      },
+      {
+        "name": "showProperty",
+        "value": true,
+        "bind": {"input": "checkbox", "name": "Show Property Crime "}
+      }
+    ],
+    
+    "data": [
+      {
+        "name": "source",
+        "url": "/data/crime_year.csv",
+        "format": {"type": "csv", "parse": "auto"}
+      },
+      {
+        "name": "violent",
+        "source": "source",
+        "transform": [
+          {"type": "filter", "expr": "showViolent"},
+          {
+            "type": "formula",
+            "as": "crime_type",
+            "expr": "'Violent'"
+          },
+          {
+            "type": "formula",
+            "as": "crime_rate",
+            "expr": "datum.vcrimes_proportion"
+          }
+        ]
+      },
+      {
+        "name": "property",
+        "source": "source",
+        "transform": [
+          {"type": "filter", "expr": "showProperty"},
+          {
+            "type": "formula",
+            "as": "crime_type",
+            "expr": "'Property'"
+          },
+          {
+            "type": "formula",
+            "as": "crime_rate",
+            "expr": "datum.pcrimes_proportion"
+          }
+        ]
+      }
+    ],
+    
+    "scales": [
+      {
+        "name": "xscale",
+        "type": "linear",
+        "domain": [2016, 2024],
+        "range": "width"
+      },
+      {
+        "name": "yscale",
+        "type": "linear",
+        "domain": {"data": "source", "fields": ["vcrimes_proportion", "pcrimes_proportion"]},
+        "range": "height",
+        "nice": true,
+        "zero": true
+      },
+      {
+        "name": "color",
+        "type": "ordinal",
+        "domain": ["Violent", "Property"],
+        "range": ["#708090", "#8FBC8F"]
+      }
+    ],
+    
+    "axes": [
+      {
+        "orient": "bottom",
+        "scale": "xscale",
+        "title": "Year",
+        "format": "d"
+      },
+      {
+        "orient": "left",
+        "scale": "yscale",
+        "title": "Crime Rate per 100k"
+      }
+    ],
+    
+    "legends": [
+      {
+        "fill": "color",
+        "title": null,
+        "orient": "bottom",
+        "direction": "horizontal"
+      }
+    ],
+    
+    "marks": [
+      {
+        "type": "symbol",
+        "from": {"data": "violent"},
+        "encode": {
+          "enter": {
+            "x": {"scale": "xscale", "field": "year"},
+            "y": {"scale": "yscale", "field": "crime_rate"},
+            "fill": {"scale": "color", "field": "crime_type"},
+            "size": {"value": 50},
+            "opacity": {"value": 0.7},
+            "tooltip": {
+              "signal": "datum.state + '\n' + datum.year + '\n' + 'Violent Crime' + '\n' + format(datum.crime_rate, ',.2f')"
+            }
+          }
+        }
+      },
+      {
+        "type": "symbol",
+        "from": {"data": "property"},
+        "encode": {
+          "enter": {
+            "x": {"scale": "xscale", "field": "year"},
+            "y": {"scale": "yscale", "field": "crime_rate"},
+            "fill": {"scale": "color", "field": "crime_type"},
+            "size": {"value": 50},
+            "opacity": {"value": 0.7},
+            "tooltip": {
+              "signal": "datum.state + '\n' + datum.year + '\n' + 'Property Crime' + '\n' + format(datum.crime_rate, ',.2f')"
+            }
+          }
+        }
+      }
+    ]
+  };
+  vegaEmbed('#vis2', spec2, {actions: false}).catch(console.error);
 </script>
 
 More analysis text continues here...
