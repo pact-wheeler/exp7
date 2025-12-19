@@ -126,20 +126,17 @@ Here's my analysis of crime data...
     ],
     
     "scales": [
-{
-  "name": "yscale",
-  "type": "band",
-  "domain": {
-    "data": "source",
-    "field": "state",
-    "sort": {"field": "sort_key", "order": "ascending"}
-  },
-  "range": "height",
-  "padding": 0.1,
-  "on": [
-    {"events": {"signal": "sortOption"}, "update": "domain"}
-  ]
-},
+    {
+      "name": "yscale",
+      "type": "band",
+      "domain": {
+        "data": "source",
+        "field": "state",
+        "sort": {"field": "sort_key", "order": "ascending"}
+      },
+      "range": "height",
+      "padding": 0.1
+    },
       {
         "name": "xscale",
         "type": "linear",
