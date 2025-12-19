@@ -4,13 +4,14 @@ title: Crime Trend Analysis
 date: 2025-12-19
 tags: non-fiction essay data-visualization
 ---
-Here's my analysis of crime data...
+
+I saw a post from someone about the reason that so many were moving from Washington to Idaho was because of how much safer it was. They cited this [FBI database](https://cde.ucr.cjis.gov/LATEST/webapp/#/pages/explorer/crime/query) as a reference and combined both property and violent crime as their source.
+
+But violent crime and property crime are wildly different. It's an entirely different experience for you to be held up at gun point and having your car stolen. One of them is dangerous and one of them isn't. There is also the problem of context. Most people couldn't tell you why crimes are per 100,000 population or if 200 violent crimes per 100,000 people is a lot or not very much. Are things better or worse than 10 years ago?
 
 <div id="vis1"></div>
-
 <script src="https://cdn.jsdelivr.net/npm/vega@6"></script>
 <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
-
 <script type="text/javascript">
   var spec1 = {
     "$schema": "https://vega.github.io/schema/vega/v6.json",
@@ -23,7 +24,6 @@ Here's my analysis of crime data...
       "anchor": "start",
       "offset": 10
     },
-    
     "signals": [
       {
         "name": "triggerUpdate",
@@ -61,7 +61,6 @@ Here's my analysis of crime data...
         "bind": {"input": "checkbox", "name": "Show Property Crime "}
       }
     ],
-    
     "data": [
       {
         "name": "source",
@@ -127,7 +126,6 @@ Here's my analysis of crime data...
         ]
       }
     ],
-    
     "scales": [
     {
       "name": "yscale",
@@ -154,7 +152,6 @@ Here's my analysis of crime data...
         "range": ["#708090", "#8FBC8F"]
       }
     ],
-    
     "axes": [
       {
         "orient": "bottom",
@@ -169,7 +166,7 @@ Here's my analysis of crime data...
         "grid": false
       }
     ],
-    
+
     "legends": [
       {
         "fill": "color",
@@ -180,7 +177,6 @@ Here's my analysis of crime data...
         "offset": 0
       }
     ],
-    
     "marks": [
       {
         "type": "rect",
@@ -198,12 +194,10 @@ Here's my analysis of crime data...
           }
         }
       }
-    ]
-  };
-  vegaEmbed('#vis1', spec1, {actions: false}).catch(console.error);
-</script>
-
-More analysis text continues here...
+    ]};
+      vegaEmbed('#vis1', spec1, {actions: false}).catch(console.error);
+    </script>
+So here's some context, you can obviously scroll through the years but to look at all the data at once below gives you particular context for 2024
 
 <div id="vis2"></div>
 
@@ -213,14 +207,12 @@ More analysis text continues here...
     "width": 800,
     "height": 600,
     "padding": 5,
-
     "title": {
       "text": "Crime Rates per 100k by State and Year",
       "fontSize": 18,
       "anchor": "start",
       "offset": 10
     },
-    
     "signals": [
       {
         "name": "showViolent",
@@ -233,7 +225,6 @@ More analysis text continues here...
         "bind": {"input": "checkbox", "name": "Show Property Crime "}
       }
     ],
-    
     "data": [
       {
         "name": "source",
@@ -275,7 +266,6 @@ More analysis text continues here...
         ]
       }
     ],
-    
     "scales": [
       {
         "name": "xscale",
@@ -298,7 +288,6 @@ More analysis text continues here...
         "range": ["#708090", "#8FBC8F"]
       }
     ],
-    
     "axes": [
       {
         "orient": "bottom",
@@ -312,7 +301,6 @@ More analysis text continues here...
         "title": "Crime Rate per 100k"
       }
     ],
-    
     "legends": [
       {
         "fill": "color",
@@ -321,7 +309,6 @@ More analysis text continues here...
         "direction": "horizontal"
       }
     ],
-    
     "marks": [
       {
         "type": "symbol",
@@ -334,7 +321,7 @@ More analysis text continues here...
             "size": {"value": 50},
             "opacity": {"value": 0.7},
             "tooltip": {
-              "signal": "datum.state + '\n' + datum.year + '\n' + 'Violent Crime' + '\n' + format(datum.crime_rate, ',.2f')"
+              "signal": "datum.state + '\\n' + datum.year + '\\n' + 'Violent Crime' + '\\n' + format(datum.crime_rate, ',.2f')"
             }
           }
         }
@@ -359,5 +346,3 @@ More analysis text continues here...
   };
   vegaEmbed('#vis2', spec2, {actions: false}).catch(console.error);
 </script>
-
-More analysis text continues here...
