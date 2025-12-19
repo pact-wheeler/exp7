@@ -27,6 +27,10 @@ Here's my analysis of crime data...
     
     "signals": [
       {
+        "name": "triggerUpdate",
+        "update": "sortOption + showViolent + showProperty"
+      },
+      {
         "name": "selectedYear",
         "value": 2024,
         "bind": {
@@ -90,7 +94,7 @@ Here's my analysis of crime data...
           {
             "type": "formula",
             "as": "sort_key",
-            "expr": "sortOption == 'alphabetical' ? datum.state : sortOption == 'violent' ? datum.violent_for_sort : sortOption == 'property' ? datum.property_for_sort : datum.total_for_sort"
+            "expr": "triggerUpdate && (sortOption == 'alphabetical' ? datum.state : sortOption == 'violent' ? datum.violent_for_sort : sortOption == 'property' ? datum.property_for_sort : datum.total_for_sort)"
           }
         ]
       },
