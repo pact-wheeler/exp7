@@ -15,7 +15,7 @@ Here's my analysis of crime data...
   var spec = {
     "$schema": "https://vega.github.io/schema/vega/v5.json",
     "width": 600,
-    "height": {"step": 25},
+    "height": 400,
     "padding": 5,
 
     "title": {
@@ -126,17 +126,17 @@ Here's my analysis of crime data...
     ],
     
     "scales": [
-      {
-        "name": "yscale",
-        "type": "band",
-        "domain": {
-          "data": "bars",
-          "field": "state",
-          "sort": {"field": "sort_key", "op": "max", "order": "ascending"}
-        },
-        "range": "height",
-        "padding": 0.1
+    {
+      "name": "yscale",
+      "type": "band",
+      "domain": {
+        "data": "source",
+        "field": "state",
+        "sort": {"field": "sort_key", "order": "ascending"}
       },
+      "range": "height",
+      "padding": 0.1
+    },
       {
         "name": "xscale",
         "type": "linear",
