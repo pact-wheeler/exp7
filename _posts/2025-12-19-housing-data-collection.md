@@ -49,6 +49,16 @@ But for the years 2016-2024 Idaho has been ranked 8 or lower for the safest plac
         }
       },
       {
+        "name": "sortOption",
+        "value": "total",
+        "bind": {
+          "input": "select",
+          "options": ["alphabetical", "violent", "property", "total"],
+          "labels": ["Alphabetical", "Violent Crime", "Property Crime", "Total Crime"],
+          "name": "Sort by: "
+        }
+      },
+      {
         "name": "showViolent",
         "value": true,
         "bind": {"input": "checkbox", "name": "Show Violent Crime "}
