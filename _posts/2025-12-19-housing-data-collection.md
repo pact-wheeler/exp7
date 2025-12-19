@@ -118,7 +118,7 @@ Here's my analysis of crime data...
             "type": "stack",
             "groupby": ["state"],
             "field": "crime_value",
-            "sort": {"field": "type_label", "order": "descending"},
+            "offset": "zero",
             "as": ["y0", "y1"]
           }
         ]
