@@ -274,12 +274,13 @@ So here's some context, you can obviously scroll through the years but to look a
       }
     ],
     "scales": [
-      {
-        "name": "xscale",
-        "type": "linear",
-        "domain": [2016, 2024],
-        "range": "width"
-      },
+    {
+      "name": "xscale",
+      "type": "linear",
+      "domainMin": 2016,
+      "domainMax": 2024,
+      "range": "width"
+    },
       {
         "name": "yscale",
         "type": "linear",
