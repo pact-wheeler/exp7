@@ -5,9 +5,17 @@ date: 2025-12-19
 tags: non-fiction essay data-visualization
 ---
 
-I saw a post from someone about the reason that so many were moving from Washington to Idaho was because of how much safer it was. They cited this [FBI database](https://cde.ucr.cjis.gov/LATEST/webapp/#/pages/explorer/crime/query) as a reference and combined both property and violent crime as their source.
+I saw a post from someone about the reason that so many were moving from Washington to Idaho was because of how much safer it was. 
 
-But violent crime and property crime are wildly different. It's an different experience for you to be held up at gun point and having your car stolen. There is also the problem of context. Most people couldn't tell you why crimes are per 100,000 population or if 250 violent crimes per 100,000 people is a lot or not very much. A single data point just doesn't really tell you much of anything without context.
+I don't have any idea if that's true, the only data they used was crime and I don't think crime is the most significant factor for why people move. I know a dozen people who have moved to Idaho, all of them quote the same thing (cost of living) and not crime. But that is a pretty small sample size so caveat emptor.
+
+At first, I didn't believe the infographic because of how it was presented (which was misleading) until I looked at the data.
+
+They cited this [FBI database](https://cde.ucr.cjis.gov/LATEST/webapp/#/pages/explorer/crime/query) as a reference and combined both property and violent crime as their source. But violent crime and property crime are wildly different. It's a different experience for you to be held up at gun point and having your car stolen. There is also the problem of context. Most people couldn't tell you why crimes are per 100,000 population or if 250 violent crimes per 100,000 people is a lot or not very much. A single data point just doesn't really tell you much of anything without context.
+
+What's actually more interesting to me is the significant drop in New York crime from 2021-2022 (that data seems like a mistake somehow) and the fact that the District of Columbia is so dangerous and in another world as far as crime goes (25% higher than the next highest point and . My guess is that DC has many people who are not counted as living there, but they are physically present. For that same reason, I might expect Delaware to be unusually low, but it's not.
+
+But for the years 2016-2024 Idaho has been ranked 8 or lower for the safest place including both property and violent crime. If you consider just violent crime Idaho bumps up to 10-12 and Washington goes to the middle of the pack. Even more interesting is that Washington went ranked 19 in 2016 to 28 in 2024 (for violent crime). That fact is significantly more noteworthy than that Idaho, which has been safer for as long as I've had data, continues to have less crime than Washington.
 
 <div id="vis1"></div>
 <script src="https://cdn.jsdelivr.net/npm/vega@6"></script>
@@ -38,16 +46,6 @@ But violent crime and property crime are wildly different. It's an different exp
           "max": 2024,
           "step": 1,
           "name": "Year: "
-        }
-      },
-      {
-        "name": "sortOption",
-        "value": "total",
-        "bind": {
-          "input": "select",
-          "options": ["alphabetical", "violent", "property", "total"],
-          "labels": ["Alphabetical", "Violent Crime", "Property Crime", "Total Crime"],
-          "name": "Sort by: "
         }
       },
       {
