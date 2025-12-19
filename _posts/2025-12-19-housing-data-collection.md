@@ -278,8 +278,8 @@ So here's some context, you can obviously scroll through the years but to look a
       "name": "xscale",
       "type": "linear",
       "domain": [2016, 2024],
-      "domainMin": 2016,
-      "domainMax": 2024,
+      "domainMin": 2015.5,
+      "domainMax": 2024.5,
       "range": "width"
     },
       {
