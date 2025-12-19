@@ -8,14 +8,14 @@ Here's my analysis of crime data...
 
 <div id="vis"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega@6"></script>
 <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 
 <script type="text/javascript">
   var spec = {
-    "$schema": "https://vega.github.io/schema/vega/v5.json",
+    "$schema": "https://vega.github.io/schema/vega/v6.json",
     "width": 600,
-    "height": 400,
+    "height": 450,
     "padding": 5,
 
     "title": {
