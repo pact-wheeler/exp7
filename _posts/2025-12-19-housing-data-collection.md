@@ -226,11 +226,18 @@ So here's some context, you can obviously scroll through the years but to look a
       }
     ],
     "data": [
-      {
-        "name": "source",
-        "url": "/data/crime_year.csv",
-        "format": {"type": "csv", "parse": "auto"}
-      },
+    {
+      "name": "source",
+      "url": "/data/crime_year.csv",
+      "format": {
+        "type": "csv",
+        "parse": {
+          "year": "number",
+          "vcrimes_proportion": "number",
+          "pcrimes_proportion": "number"
+        }
+      }
+    },
       {
         "name": "violent",
         "source": "source",
@@ -292,13 +299,11 @@ So here's some context, you can obviously scroll through the years but to look a
       {
         "orient": "bottom",
         "scale": "xscale",
-        "title": "Year",
         "format": "d"
       },
       {
         "orient": "left",
         "scale": "yscale",
-        "title": "Crime Rate per 100k"
       }
     ],
     "legends": [
