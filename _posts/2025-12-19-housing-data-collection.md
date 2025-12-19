@@ -285,7 +285,7 @@ So here's some context, you can obviously scroll through the years but to look a
         "type": "linear",
         "domain": {"data": "source", "fields": ["vcrimes_proportion", "pcrimes_proportion"]},
         "range": "height",
-        "nice": true,
+        "nice": true
       },
       {
         "name": "color",
