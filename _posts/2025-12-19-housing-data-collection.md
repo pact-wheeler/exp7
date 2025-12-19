@@ -208,7 +208,7 @@ So here's some context, you can obviously scroll through the years but to look a
     "height": 600,
     "padding": 5,
     "title": {
-      "text": "Crime Rates per 100k by State and Year",
+      "text": "Crime Rates 2016-2024",
       "fontSize": 18,
       "anchor": "start",
       "offset": 10
@@ -277,6 +277,7 @@ So here's some context, you can obviously scroll through the years but to look a
     {
       "name": "xscale",
       "type": "linear",
+      "domain": [2016, 2024],
       "domainMin": 2016,
       "domainMax": 2024,
       "range": "width"
