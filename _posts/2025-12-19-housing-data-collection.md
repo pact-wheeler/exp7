@@ -185,7 +185,7 @@ But for the years 2016-2024 Idaho has been ranked 8 or lower for the safest plac
         "offset": 0
       }
     ],
-    "marks": [
+"marks": [
       {
         "type": "rect",
         "from": {"data": "bars"},
@@ -202,9 +202,11 @@ But for the years 2016-2024 Idaho has been ranked 8 or lower for the safest plac
           }
         }
       }
-    ];
+    ]
+  };
       vegaEmbed('#vis1', spec1, {actions: false}).catch(console.error);
     </script>
+
 So here's some context, you can obviously scroll through the years but to look at all the data at once below gives you an interesting view of all the data at once. 
 
 <div id="vis2"></div>
@@ -324,7 +326,7 @@ So here's some context, you can obviously scroll through the years but to look a
         "direction": "horizontal"
       }
     ],
-    "marks": [
+"marks": [
       {
         "type": "symbol",
         "from": {"data": "violent"},
@@ -334,8 +336,9 @@ So here's some context, you can obviously scroll through the years but to look a
             "y": {"scale": "yscale", "field": "crime_rate"},
             "fill": {"scale": "color", "field": "crime_type"},
             "size": {"value": 50},
-         "tooltip": {  "signal": "{'State': datum.state, 'Year': datum.year, 'Type': 'Violent Crime', 'Rate per 100k': format(datum.crime_rate, ',.2f')}"
-}
+            "tooltip": {  
+              "signal": "{'State': datum.state, 'Year': datum.year, 'Type': 'Violent Crime', 'Rate per 100k': format(datum.crime_rate, ',.2f')}"
+            }
           }
         }
       },
@@ -348,12 +351,13 @@ So here's some context, you can obviously scroll through the years but to look a
             "y": {"scale": "yscale", "field": "crime_rate"},
             "fill": {"scale": "color", "field": "crime_type"},
             "size": {"value": 50},
-    "tooltip": {  "signal": "{'State': datum.state, 'Year': datum.year, 'Type': 'Property Crime', 'Rate per 100k': format(datum.crime_rate, ',.2f')}"
-}
+            "tooltip": {  
+              "signal": "{'State': datum.state, 'Year': datum.year, 'Type': 'Property Crime', 'Rate per 100k': format(datum.crime_rate, ',.2f')}"
             }
           }
         }
+      }
     ]
-  }};
+  };
   vegaEmbed('#vis2', spec2, {actions: false}).catch(console.error);
 </script>
