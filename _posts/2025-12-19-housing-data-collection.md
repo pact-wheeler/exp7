@@ -7,7 +7,7 @@ tags: non-fiction essay data-visualization
 
 I saw a post from someone about the reason that so many were moving from Washington to Idaho was because of how much safer it was. They cited this [FBI database](https://cde.ucr.cjis.gov/LATEST/webapp/#/pages/explorer/crime/query) as a reference and combined both property and violent crime as their source.
 
-But violent crime and property crime are wildly different. It's an entirely different experience for you to be held up at gun point and having your car stolen. One of them is dangerous and one of them isn't. There is also the problem of context. Most people couldn't tell you why crimes are per 100,000 population or if 200 violent crimes per 100,000 people is a lot or not very much. Are things better or worse than 10 years ago?
+But violent crime and property crime are wildly different. It's an entirely different experience for you to be held up at gun point and having your car stolen. There is also the problem of context. Most people couldn't tell you why crimes are per 100,000 population or if 250 violent crimes per 100,000 people is a lot or not very much. A single data point just doesn't really tell you much of anything without context.
 
 <div id="vis1"></div>
 <script src="https://cdn.jsdelivr.net/npm/vega@6"></script>
@@ -197,7 +197,7 @@ But violent crime and property crime are wildly different. It's an entirely diff
     ]};
       vegaEmbed('#vis1', spec1, {actions: false}).catch(console.error);
     </script>
-So here's some context, you can obviously scroll through the years but to look at all the data at once below gives you particular context for 2024
+So here's some context, you can obviously scroll through the years but to look at all the data at once below gives you an interesting view of all the data at once. 
 
 <div id="vis2"></div>
 
@@ -326,7 +326,6 @@ So here's some context, you can obviously scroll through the years but to look a
             "y": {"scale": "yscale", "field": "crime_rate"},
             "fill": {"scale": "color", "field": "crime_type"},
             "size": {"value": 50},
-            "opacity": {"value": 0.7},
          "tooltip": {  "signal": "{'State': datum.state, 'Year': datum.year, 'Type': 'Violent Crime', 'Rate per 100k': format(datum.crime_rate, ',.2f')}"
 }
           }
@@ -341,13 +340,11 @@ So here's some context, you can obviously scroll through the years but to look a
             "y": {"scale": "yscale", "field": "crime_rate"},
             "fill": {"scale": "color", "field": "crime_type"},
             "size": {"value": 50},
-            "opacity": {"value": 0.7},
     "tooltip": {  "signal": "{'State': datum.state, 'Year': datum.year, 'Type': 'Property Crime', 'Rate per 100k': format(datum.crime_rate, ',.2f')}"
 }
             }
           }
         }
-      }
     ]
   };
   vegaEmbed('#vis2', spec2, {actions: false}).catch(console.error);
