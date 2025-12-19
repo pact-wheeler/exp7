@@ -327,9 +327,8 @@ So here's some context, you can obviously scroll through the years but to look a
             "fill": {"scale": "color", "field": "crime_type"},
             "size": {"value": 50},
             "opacity": {"value": 0.7},
-            "tooltip": {
-              "signal": "datum.state + '\\n' + datum.year + '\\n' + 'Violent Crime' + '\\n' + format(datum.crime_rate, ',.2f')"
-            }
+         "tooltip": {  "signal": "{'State': datum.state, 'Year': datum.year, 'Type': 'Violent Crime', 'Rate per 100k': format(datum.crime_rate, ',.2f')}"
+}
           }
         }
       },
@@ -343,8 +342,8 @@ So here's some context, you can obviously scroll through the years but to look a
             "fill": {"scale": "color", "field": "crime_type"},
             "size": {"value": 50},
             "opacity": {"value": 0.7},
-            "tooltip": {
-              "signal": "datum.state + '\\n' + datum.year + '\\n' + 'Violent Crime' + '\\n' + format(datum.crime_rate, ',.2f')"
+    "tooltip": {  "signal": "{'State': datum.state, 'Year': datum.year, 'Type': 'Property Crime', 'Rate per 100k': format(datum.crime_rate, ',.2f')}"
+}
             }
           }
         }
