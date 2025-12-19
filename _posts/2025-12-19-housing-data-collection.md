@@ -204,8 +204,8 @@ So here's some context, you can obviously scroll through the years but to look a
 <script type="text/javascript">
   var spec2 = {
     "$schema": "https://vega.github.io/schema/vega/v6.json",
-    "width": 800,
-    "height": 600,
+    "width": 400,
+    "height": 300,
     "padding": 5,
     "title": {
       "text": "Crime Rates 2016-2024",
@@ -300,7 +300,8 @@ So here's some context, you can obviously scroll through the years but to look a
       {
         "orient": "bottom",
         "scale": "xscale",
-        "format": "d"
+        "format": "d",
+        "offset": 10
       },
       {
         "orient": "left",
