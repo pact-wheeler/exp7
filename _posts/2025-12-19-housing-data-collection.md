@@ -17,7 +17,6 @@ Here's my analysis of crime data...
     "width": 800,
     "height": 600,
     "padding": 5,
-
     "title": {
       "text": "Crime Rate per 100k",
       "fontSize": 18,
@@ -351,7 +350,7 @@ More analysis text continues here...
             "size": {"value": 50},
             "opacity": {"value": 0.7},
             "tooltip": {
-              "signal": "datum.state + '\n' + datum.year + '\n' + 'Property Crime' + '\n' + format(datum.crime_rate, ',.2f')"
+              "signal": "datum.state + '\\n' + datum.year + '\\n' + 'Violent Crime' + '\\n' + format(datum.crime_rate, ',.2f')"
             }
           }
         }
