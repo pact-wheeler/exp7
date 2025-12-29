@@ -203,8 +203,8 @@ But for the years 2016-2024 Idaho has been ranked 8 or lower for the safest plac
         }
       }
     ]
-  };
-      vegaEmbed('#vis1', spec1, {actions: false}).catch(console.error);
+  ;
+        vegaEmbed('#vis1', spec1, {actions: false}).catch(console.error);
     </script>
 
 So here's some context, you can obviously scroll through the years but to look at all the data at once below gives you an interesting view of all the data at once. 
