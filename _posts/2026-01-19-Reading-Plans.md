@@ -1,7 +1,6 @@
 ---
 layout: default
 title:  Reading Plans
-permalink: /
 date: 2026-01-19
 tags: non-fiction essay Christian
 ---
