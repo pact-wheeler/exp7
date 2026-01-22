@@ -1,7 +1,7 @@
 ---
 layout: default
 title: "Review: Gentle and Lowly"
-permalink: \ortlund
+permalink: /ortlund/
 date: 2025-04-03
 tags: theology non-fiction
 ---
