@@ -24,11 +24,10 @@ jobs:
       with:
         version: '3.1'
         
-    - name: Install pandoc-sidenote
+    - name: Download pandoc-sidenote Lua filter
       run: |
-        wget https://github.com/jez/pandoc-sidenote/releases/download/0.23.0.0/pandoc-sidenote-0.23.0.0-linux-x86_64.tar.gz
-        tar -xzf pandoc-sidenote-0.23.0.0-linux-x86_64.tar.gz
-        sudo mv pandoc-sidenote /usr/local/bin/
+        curl -sSL -o pandoc-sidenote.lua \
+          https://raw.githubusercontent.com/jez/pandoc-sidenote/refs/heads/master/pandoc-sidenote.lua
         
     - name: Build site
       run: bundle exec jekyll build
