@@ -1,0 +1,20 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    jekyll (4.3.3)
+    jekyll-feed (0.17.0)
+    jekyll-pandoc (2.1.1)
+      jekyll (>= 3.0)
+      pandoc-ruby (~> 2.0, >= 2.0.2)
+    pandoc-ruby (2.1.9)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  jekyll
+  jekyll-feed
+  jekyll-pandoc
+
+BUNDLED WITH
+   2.3.26
