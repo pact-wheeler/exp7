@@ -2,15 +2,11 @@ title: Daniel Hayward's Blog
 description: Essays and fiction from Daniel Hayward
 author: Daniel Hayward
 baseurl: ""
+plugins: ["jekyll-feed"]
 url: "https://danielphayward.com"
-
-plugins: 
-  - jekyll-feed
-  
-# Back to kramdown
 markdown: kramdown
-
-# Collections
+kramdown:
+  input: GFM
 collections:
   posts:
     output: true
