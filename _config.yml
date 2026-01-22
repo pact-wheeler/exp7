@@ -6,16 +6,9 @@ url: "https://danielphayward.com"
 
 plugins: 
   - jekyll-feed
-  - jekyll-pandoc
-
-# Pandoc settings
-markdown: Pandoc
-pandoc:
-  extensions:
-    - section-divs
-    - from: markdown+tex_math_single_backslash
-    - lua-filter: pandoc-sidenote.lua
-    - to: html5
+  
+# Back to kramdown
+markdown: kramdown
 
 # Collections
 collections:
