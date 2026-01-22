@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Software - Daniel Hayward's Blog</title>
+    <link rel="alternate" type="application/atom+xml" title="Daniel Hayward's Blog" href="/feed.xml">
+    <link rel="stylesheet" href="/assets/css/tufte.css">
+    <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico">
+    <style>
+        /* Header Styles */
+        header nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+header nav li {
+    margin-right: 1.5rem;
+    display: flex;
+    align-items: center;
+}
+
+header nav a {
+    text-decoration: none;
+    line-height: 1;
+    display: inline-block;
+}
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">home</a></li>
+                <li><a href="/now">now</a></li>
+                <li><a href="/flow">flow</a></li>
+                <li><a href="/adelphos">adelphos</a></li>
+                <li><a href="/business">business</a></li>
+                
+            </ul>
+        </nav>
+    </header>
+
+    <article>
+        <h1>How to Software</h1>
+        <section>
+            <ul>
+<li><p>Change your default search to Kagi</p>
+<ul>
+<li><a
+href="https://help.kagi.com/kagi/getting-started/setting-default.html#chromium_desktop">Here’s
+the link</a>, your instructions might be different than mine depending
+on what device you use.</li>
+</ul></li>
+<li><p>Excel</p>
+<ul>
+<li>Highlight every other row with conditional formatting
+<ul>
+<li>=AND(MOD(ROW(CellRef),2)=0, NOT(ISBLANK(CellRef)))</li>
+<li>With any conditional formatting (and dynamic arrays, for that
+matter) you’re looking for each cell within a range to return either
+TRUE or FALSE.</li>
+</ul></li>
+<li>Process for Excel workbooks
+<ul>
+<li>Create an excel model and have as many tables in, don’t worry too
+much about what tables you’re referencing, get it working</li>
+<li>When doing a final version of the Excel modle</li>
+</ul></li>
+</ul></li>
+<li><p>Power Query</p>
+<ul>
+<li><p>Refer to column by index</p>
+<ul>
+<li><p><a
+href="https://stackoverflow.com/questions/50113354/how-to-refer-columns-in-power-query-by-index-or-position">Here’s
+the link</a></p></li>
+<li><p>Code is</p>
+<pre><code>Table.ColumnNames(MyTable){n}</code></pre></li>
+</ul></li>
+<li><p>Refer to sheet by index</p>
+<ul>
+<li><p><a
+href="https://sqlryan.com/2019/06/import-first-sheet-of-an-excel-workbook-into-power-query-regardless-of-its-name/">Here’s
+the link</a></p></li>
+<li><p>Code is</p>
+<ul>
+<li><p>In</p>
+<pre><code>#PrevStep = Source{[Item=&quot;Dan&#39;s Sheet&quot;, Kind=&quot;Sheet1&quot;]},[Data],</code></pre>
+<p>Replace</p>
+<pre><code>Item=&quot;Bob&#39;s Sheet&quot;</code></pre>
+<p>with</p>
+<pre><code>Item=Source{0}[Item]</code></pre>
+<p>Remember, it’s a 0 based index.</p></li>
+</ul></li>
+</ul></li>
+<li><p>Best Practice is to rename auto generated step names</p></li>
+</ul></li>
+<li><p>Markdown is all you need for most writing</p>
+<ul>
+<li>I use <a href="https://typora.io/">Typora</a>, - it was &lt;$20. You
+<a href="https://danielphayward.com/tanstaafl">should buy software</a>
+that you use, generally.
+<ul>
+<li>Features I use all the time
+<ul>
+<li>Ordered and unordered Lists</li>
+<li>Headings</li>
+<li>Bold, italic, links, quotes, parenthesis
+<ul>
+<li>In Typora, I can highlight something and it will do that. Ctrl-K
+takes a link that is on your clipboard and applies it to whatever text
+is highlighted, this is an amazingly simple operation that saves me time
+and effort. Highlighting some text and then typing a parenthesis will
+put all of the highlighted text in parentheses. If I am anywhere in a
+line and I hit tab, while in a list, it will indent that section of
+text. Simple quality of life stuff.</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><p>Charts</p>
+<ul>
+<li>Clean up charts:
+<ol type="1">
+<li>Remove chart borders<br />
+</li>
+<li>Remove or de-emphasize gridlines<br />
+</li>
+<li>Clean up axes labels<br />
+</li>
+<li>Label data directly when appropriate<br />
+</li>
+<li>Leverage consistent color</li>
+</ol></li>
+</ul></li>
+</ul>
+
+        </section>
+    </article>
+     <footer>
+        <a href="/feed.xml">subscribe to rss</a>
+     </footer>
+    <script data-goatcounter="https://danielphayward.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

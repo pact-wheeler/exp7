@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel Cruft - Daniel Hayward's Blog</title>
+    <link rel="alternate" type="application/atom+xml" title="Daniel Hayward's Blog" href="/feed.xml">
+    <link rel="stylesheet" href="/assets/css/tufte.css">
+    <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico">
+    <style>
+        /* Header Styles */
+        header nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+header nav li {
+    margin-right: 1.5rem;
+    display: flex;
+    align-items: center;
+}
+
+header nav a {
+    text-decoration: none;
+    line-height: 1;
+    display: inline-block;
+}
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">home</a></li>
+                <li><a href="/now">now</a></li>
+                <li><a href="/flow">flow</a></li>
+                <li><a href="/adelphos">adelphos</a></li>
+                <li><a href="/business">business</a></li>
+                
+            </ul>
+        </nav>
+    </header>
+
+    <article>
+        <h1>Excel Cruft</h1>
+        <section>
+            <p>Here’s a long ugly formula.</p>
+<pre><code>=IFERROR(IFERROR(IF([@wiffle]=&quot;&quot;,&quot;&quot;,VLOOKUP([@piffle],kerfuffle!A:R,4,FALSE)),VLOOKUP([@wiffle],waffle!A:D,3,FALSE)),&quot;&quot;)</code></pre>
+<p>This is a real formula. I’ve changed all the private information with
+silly words because the world lacks whimsy. Someone who isn’t well
+versed in Excel might think this is a complex formula and while it is a
+complicated formula it doesn’t need to be. Let’s break it apart.</p>
+<p>The IFERROR function has two arguments (value, value if error). In
+this case, it returns a blank (““) if the first formula returns us an
+error. Easy enough.</p>
+<p>Lets remove it and see what’s left:</p>
+<pre><code>=IFERROR(IF([@wiffle]=&quot;&quot;,&quot;&quot;,VLOOKUP([@piffle],kerfuffle!A:R,4,FALSE)),VLOOKUP([@wiffle],waffle!A:D,3,FALSE))</code></pre>
+<p>Another IFERROR! <em>Bastards</em>. This IFERROR’s first argument
+is:</p>
+<pre><code>IF([@wiffle]=&quot;&quot;,&quot;&quot;,VLOOKUP([@piffle],kerfuffle!A:R,4,FALSE)) </code></pre>
+<p>In plain English, if the current row in the current table is blank
+then return blank. That blank value returns up to both IFERRORS the
+result of the whole formula is blank. If the current row of the current
+table is not blank, then lookup in another sheet the entire sheet column
+A:R and return the 4th column.</p>
+<p>Here are some problems with that; Excel is being told here to look at
+approximately 1 million rows of data for the first match. It’s also
+including A:R and then only going to the 4th column (the 4 in the
+VLOOKUP), why did you grab A:R? Because someone merged columns and now
+the formula includes data it doesn’t need to.</p>
+<p>The second argument in the IFERROR is another VLOOKUP:</p>
+<pre><code>VLOOKUP([@wiffle],waffle!A:D,3,FALSE))</code></pre>
+<p>This is to have a backup VLOOKUP in case the value of the current row
+in the current table is not found with the first VLOOKUP (remember, this
+only takes place when the first VLOOKUP evaluates to an error).</p>
+<p>So a few options, some formula improvement and some general workbook
+design.</p>
+<p>Combine your tables so you don’t have single formulas with 2 lookups,
+that is honestly best to avoid as often as possible. But if you can’t,
+and sometimes you can’t, there is a “new” formula that’s only been out
+for 5 years that would simplify this a great deal.</p>
+<p>XLOOKUP - it has error handling inside of it. So instead of the
+monstrosity you could have</p>
+<pre><code>=xlookup(@piffle,kerfuffle!A1:A1000,kerfuffle!D1:D1000,xlookup(@wiffle,waffle!A:A,waffle!C:C,&quot;&quot;))</code></pre>
+<p>and you would have the same result. This would be even shorter and
+clearer if you had table references and even clearer than that if you
+combined your lookups so that they could reference a single table.</p>
+
+        </section>
+    </article>
+     <footer>
+        <a href="/feed.xml">subscribe to rss</a>
+     </footer>
+    <script data-goatcounter="https://danielphayward.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
