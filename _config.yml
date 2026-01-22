@@ -13,8 +13,9 @@ markdown: Pandoc
 pandoc:
   extensions:
     - section-divs
-    - from: 'markdown+tex_math_single_backslash'
-    - lua-filter: 'pandoc-sidenote.lua' 
+    - from: markdown+tex_math_single_backslash
+    - lua-filter: pandoc-sidenote.lua
+    - to: html5
 
 # Collections
 collections:
