@@ -7,7 +7,7 @@ tags: non-fiction essay Christian
 
 As is pretty common for Christians, they think about reading through the Bible this coming year around January.
 
-[My pastor](https://gracecityportland.org/our-team) mentioned the best reading plan that he had come across was Robert Murray's reading plan. I found a [copy online](https://mcheyne.info/mcheyne-reading-plan/) included with the reading plan is a warning and encouragement (from 1862), which I had never seen before with a Bible reading plan.
+[My pastor](https://gracecityportland.org/our-team?utm_source=danielphayward.com) mentioned the best reading plan that he had come across was Robert Murray's reading plan. I found a [copy online](https://mcheyne.info/mcheyne-reading-plan/?utm_source=danielphayward.com) included with the reading plan is a warning and encouragement (from 1862), which I had never seen before with a Bible reading plan.
 
 The warning is that by following a reading plan your faith may become stale, you may become self-righteous or self condemning (different outcomes of the same belief), and the Word may lose it's awe-inspiring nature. I had heard these warnings before or had experience with them generally.
 

@@ -45,7 +45,7 @@ Please don't Get [Outlook for iOS](https://aka.ms/o0ukef)
 
 Hey guys, let’s take this topic and subject off of a group email please
 
-Get [Outlook for iOS](https://aka.ms/o0ukef)
+Get [Outlook for iOS](https://aka.ms/o0ukef?utm_source=danielphayward.com)
 
 
 ------
@@ -89,7 +89,7 @@ Sent from my Samsung
 
 What is the ETA for pay stub portal to be repaired? I can log in, I had to reset my password but my last pay check of the year for 2025 or the first one of 2026, WE 12/28/25. Is not available to view. I have several employees questioning their pay checks from the storm we were on and I have no way to verify the correct hours were paid out, please update. Thank you. 
 
-Go Get [Outlook for iOS](https://aka.ms/o0ukef)
+Go Get [Outlook for iOS](https://aka.ms/o0ukef?utm_source=danielphayward.com)
 
 
 ------
@@ -100,7 +100,7 @@ Go Get [Outlook for iOS](https://aka.ms/o0ukef)
 
 I had same issue today and updated password. Issue resolved 
 
-Get [Outlook for iOS](https://aka.ms/o0ukef)
+Get [Outlook for iOS](https://aka.ms/o0ukef?utm_source=danielphayward.com)
 
 
 ------
@@ -155,4 +155,4 @@ We are currently experiencing technical issues with the paystub portal affecting
 
 Our IT team is actively working to resolve the issue. A follow-up notification will be sent as soon as access is fully restored.
 
-[We apologize for the inconvenience.](https://www.goodreads.com/quotes/123557-god-s-final-message-to-his-creation-we-apologize-for-the)
+[We apologize for the inconvenience.](https://www.goodreads.com/quotes/123557-god-s-final-message-to-his-creation-we-apologize-for-the?utm_source=danielphayward.com)

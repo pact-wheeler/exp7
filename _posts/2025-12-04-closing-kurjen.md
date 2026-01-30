@@ -20,17 +20,17 @@ My sales cycle was too long, the amount I would need almost doubled. I switched 
 
 In September, I started at [Henkels & McCoy](https://www.henkels.com/). It was a really good fit when I left and still is. I'm getting my teeth into some complex projects that line up well with my strengths (not managing sales and technical work at the same time).
 
-[Jamon Holmgren](https://jamon.dev/) told me after I started that it would be a struggle to manage getting work and execution at the same time. Until you have outsource one of those to employees or contractors it would always be a struggle. He would know, he built his business in 2008, the most difficult time to do so in my lifetime.
+[Jamon Holmgren](https://jamon.dev/?utm_source=danielphayward.com) told me after I started that it would be a struggle to manage getting work and execution at the same time. Until you have outsource one of those to employees or contractors it would always be a struggle. He would know, he built his business in 2008, the most difficult time to do so in my lifetime.
 
 Could we have gone into more debt to try to save the business? Yes, but even with the debt we accrued, it's going to be a long time digging out. I lost faith that my offer addressed a real need in the marketplace. Or that there was enough demand to support my business. My standard for confidence in decisions required more evidence than I had. The entrepreneurial optimistic fog had lifted. Instead of making assertions, I asked myself, "how do you *really* know?" 
 
 I am, in many ways, an introvert who learned to be extroverted for work. For the 8 months I was working for myself, my brain didn't turn off. I networked in person, and attempted to get a funnel going on LI. Except at the beginning when things were going extremely well, I was always thinking about the next deal (or lack thereof).
 
-If I'm more honest with myself, my execution lacked the timeliness that could have turned good clients into repeating clients. I was given an opportunity and [buried it in the sand](https://www.biblegateway.com/passage/?search=Matthew%2025%3A14-30&version=NASB). Even though my customers were understanding, I missed my standard by a mile. 
+If I'm more honest with myself, my execution lacked the timeliness that could have turned good clients into repeating clients. I was given an opportunity and [buried it in the sand](https://www.biblegateway.com/passage/?search=Matthew%2025%3A14-30&version=NASB?utm_source=danielphayward.com). Even though my customers were understanding, I missed my standard by a mile. 
 
 Did they get what they paid for? Yes, eventually.
 
-One of the main problems is that more than half of my clients were given to me by one person. [Benjamin Holmgren](https://www.joingroundcrew.com) spent years building a strong network in construction and deserves all the success he has. I never put in this kind of work or developed these relationships prior to going out on my own. Instead of putting the weight of sales on an unpaid friend, I should have built this pipeline myself.
+One of the main problems is that more than half of my clients were given to me by one person. [Benjamin Holmgren](https://www.joingroundcrew.com?utm_source=danielphayward.com) spent years building a strong network in construction and deserves all the success he has. I never put in this kind of work or developed these relationships prior to going out on my own. Instead of putting the weight of sales on an unpaid friend, I should have built this pipeline myself.
 
 Establishing enough trust for deals large enough to make a business like mine work takes time. Smaller transactions translate to a lower trust requirement and a shorter amount of time. Getting a deal for $500 is doable but I would have needed 250 projects a year to pay the extra taxes, cover healthcare, and maintain the same "take-home" pay. 
 
@@ -44,7 +44,7 @@ If I sold the $4,000 project 3x a month, I was doing well, but I never hit that.
 
 I floundered from May to July as even the smaller projects started to dry up. I was so focused on getting new work I struggled both in completing the work I did have.
 
-To try to fix the [demand side](https://acsilabs.org/team/lia-a-dibello/) of my business, I worked through Amy Hoy's [Sales Safari](https://stackingthebricks.com/?utm_source=danielphayward.com), started reading the [Heart of Innovation](http://theheartofinnovationbook.com/?utm_source=danielphayward.com) and read about as much as I could by [Cedric Chin](commoncog.com?utm_source=danielphayward.com) about demand. I knew that I couldn't exactly explain why the people who bought from me did. Not with real certainty. I went to construction events in my area, did online and in person networking, I talked to friends about their businesses and really went in as many directions as I could, essentially throwing stuff at the wall to see if anything stuck.
+To try to fix the [demand side](https://acsilabs.org/team/lia-a-dibello/?utm_source=danielphayward.com) of my business, I worked through Amy Hoy's [Sales Safari](https://stackingthebricks.com/?utm_source=danielphayward.com), started reading the [Heart of Innovation](http://theheartofinnovationbook.com/?utm_source=danielphayward.com) and read about as much as I could by [Cedric Chin](commoncog.com?utm_source=danielphayward.com) about demand. I knew that I couldn't exactly explain why the people who bought from me did. Not with real certainty. I went to construction events in my area, did online and in person networking, I talked to friends about their businesses and really went in as many directions as I could, essentially throwing stuff at the wall to see if anything stuck.
 
 It didn't.
 
