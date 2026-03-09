@@ -10,6 +10,7 @@ My name is Daniel, welcome! Below, my posts are in roughly chronological order. 
 **{{ yearMonth.name }}**
 {% for post in yearMonth.items %}
 {% assign word_count = post.content | number_of_words %}
+
 * [{{ post.title }}]({{ post.url }}) <small>{{ post.date | date: "%B %d, %Y" }} | {{ post.tags | join: ", " }}{% if word_count < 750 %} | short{% endif %}</small>
 {% endfor %}
 {% endfor %}
