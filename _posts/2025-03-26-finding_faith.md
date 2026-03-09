@@ -3,7 +3,7 @@ layout: default
 title: Finding Faith
 permalink: /finding-faith/
 date: 2025-03-26
-tags: theology non-fiction
+tags: theology
 ---
 A few months into fatherhood, I realized that I don't know if I'm a Christian. I don't doubt that the Bible is true, that a worldview centered on Christ is the way to eternal life, but what I do have an question is whether or not I am God's child. 
 
