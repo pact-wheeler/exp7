@@ -22,7 +22,6 @@
   {%- if include.showcase == "false" or post.tags contains "showcase" -%}
   <li>
     <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
-    <small>{{ post.date | date: "%B %d, %Y" }}</small>
   </li>
   {%- assign shown = shown | plus: 1 -%}
   {%- endif -%}

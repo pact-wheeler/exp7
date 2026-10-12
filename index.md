@@ -12,11 +12,13 @@ A bit about me, my name is Daniel. I work in electrical infrastructure construct
 
 {% include post-section.html tag="business" %}
 
+{% include post-section.html tag="essay" %}
+
 Other than construction and business I’ve also started listening to the back log of the [Voxology Podcast](https://www.voxologypodcast.com/) and writing a few notes about each episode. I am confident I won’t be able to maintain my current post of 1 episode per day for the entire backlog, it's 600 episodes and counting. But as in many things, “it seemed like a good idea at the time.”
 
 Why write listen to and respond to each episode? Mike Erre is the kind of Christian I hope to be. I grew up in a environment where Christian and republican were synonyms and I argued with only "truth" and no love for people who ~~were wrong~~ disagreed with me. So listening to the whole of the podcast might give me insight in how to think about things I have settled in my head now, I've deconstructed and this is part of an attempt to reconstruct.
 
-{% include post-section.html tag="vox" showcase="false" limit=1 %}
+{% include post-section.html tag="vox" showcase="false" limit=3 %}
 
 Given how much i think about faith, it’s not something I write about much, but below are some of the ones that stand out. I suspect that I don't write as much about faith because it is not something I want to be wrong about and I know how different I think about faith compared to those I have been in community with for most of my life.
 
