@@ -3,7 +3,7 @@ layout: default
 title: Closing kurjen
 permalink: /closing-kurjen/
 date: 2025-12-04
-tags: non-fiction business
+tags: non-fiction business showcase
 ---
 
 Maybe you noticed, maybe you didn't, I closed kurjen.

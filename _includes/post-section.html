@@ -1,0 +1,34 @@
+{%- comment -%}
+  Reusable homepage section: lists posts for one tag.
+
+  Parameters:
+    tag       (required) the tag to list, e.g. tag="fiction"
+    showcase  (optional) defaults to requiring the "showcase" tag too;
+              pass showcase="false" to list every post with the tag
+    limit     (optional) maximum posts to show, e.g. limit=3
+    more      (optional) URL for a "see all" link, e.g. more="/business/"
+
+  Example:
+    {% include post-section.html tag="vox" showcase="false" limit=3 %}
+{%- endcomment -%}
+{%- assign limit = include.limit | default: 1000 | plus: 0 -%}
+{%- assign shown = 0 -%}
+{%- assign tagged = site.tags[include.tag] -%}
+{%- if tagged -%}
+{%- assign tagged = tagged | sort: "date" | reverse -%}
+<ul class="post-section">
+{%- for post in tagged -%}
+  {%- if shown >= limit -%}{%- break -%}{%- endif -%}
+  {%- if include.showcase == "false" or post.tags contains "showcase" -%}
+  <li>
+    <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+    <small>{{ post.date | date: "%B %d, %Y" }}</small>
+  </li>
+  {%- assign shown = shown | plus: 1 -%}
+  {%- endif -%}
+{%- endfor -%}
+</ul>
+{%- endif -%}
+{%- if include.more %}
+<p><a href="{{ site.baseurl }}{{ include.more }}">See all →</a></p>
+{%- endif -%}

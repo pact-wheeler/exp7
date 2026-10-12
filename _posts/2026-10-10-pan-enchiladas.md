@@ -3,7 +3,7 @@ layout: default
 title: 'Pan Enchiladas'
 date: 2026-10-10
 tags: recipe
-permalink: /enchilada/
+permalink: /enchiladas/
 ---
 
 ## Ingredients
