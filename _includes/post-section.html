@@ -15,7 +15,6 @@
 {%- assign shown = 0 -%}
 {%- assign tagged = site.tags[include.tag] -%}
 {%- if tagged -%}
-{%- assign tagged = tagged | sort: "date" | reverse -%}
 <ul class="post-section">
 {%- for post in tagged -%}
   {%- if shown >= limit -%}{%- break -%}{%- endif -%}

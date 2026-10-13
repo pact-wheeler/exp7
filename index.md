@@ -6,7 +6,9 @@ Welcome to my website; it is almost exactly like a blog.
 
 {% include site-stats.html %}
 
-A bit about me, my name is Daniel. I work in electrical infrastructure construction and data. My most active social media is [linkedin](https://www.linkedin.com/in/danielphayward/) but as of october’26, I haven’t been getting a ton of value out of it, I don’t know if i will continue to post there or not. I also have been working on an electrical infrastructure industry report for the last few months, we will see if that makes the light of day. Related to construction, I also have some case studies from mega projects over the years, and I have written about some general business writings, influenced by my attempt at working for myself and [Cedric Chin](https://commoncog.com/). 
+A bit about me, my name is Daniel. I work in electrical infrastructure construction and data. In addition to what I'm posting here, I have been working on an electrical infrastructure industry report for the last few months, we will see if that makes the light of day. 
+
+Related to construction, I also have some case studies from mega projects over the years, and I have written about some general business writings, influenced by my attempt at working for myself and [Cedric Chin](https://commoncog.com/). 
 
 {% include post-section.html tag="construction" %}
 
@@ -20,7 +22,7 @@ Why write listen to and respond to each episode? Mike Erre is the kind of Christ
 
 {% include post-section.html tag="vox" showcase="false" limit=3 %}
 
-Given how much i think about faith, it’s not something I write about much, but below are some of the ones that stand out. I suspect that I don't write as much about faith because it is not something I want to be wrong about and I know how different I think about faith compared to those I have been in community with for most of my life.
+Given how much I think about faith, it’s not something I write about much. Below are some of the ones that stand out. I suspect that I don't write as much about faith because it is not something I want to be wrong about. I know how differently I think about faith compared to those in my community.
 
 {% include post-section.html tag="theology" %}
 
@@ -28,5 +30,5 @@ Finally is the fiction I’ve written. Below is what I think is the best, but yo
 
 {% include post-section.html tag="fiction" %}
 
-Everything is in the [archive]({{ site.baseurl }}/archive/) by date, or you can browse [by tag]({{ site.baseurl }}/tags.html).
+Everything is in the [archive]({{ site.baseurl }}/archive/) by date or [by tag]({{ site.baseurl }}/tags.html).
 

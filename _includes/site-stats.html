@@ -10,12 +10,10 @@
 {%- assign average_words = total_words | divided_by: post_count -%}
 {%- assign earliest = site.posts.last -%}
 {%- assign latest = site.posts.first -%}
-<div class="site-stats">
 <p>I've written {{ post_count }} posts. The average length is {{ average_words }} words. The earliest dated is {{ earliest.date | date: "%B %-d, %Y" }}, and the most recent is {{ latest.date | date: "%B %-d, %Y" }}. But those numbers don't matter so much, not because they aren't true (the dates for the early posts were best guesses by year), but because it doesn't tell you anything about what's inside the writing.</p>
-<p>It is easy as someone focused on data that they always matter, but sometimes, just because you can count something doesn't mean it's worth counting.</p>
+<p>It is easy, as someone who cares about data, about knowing the truth, to think that numbers always matter, but just because you can count something doesn't mean you should.</p>
 <div class="epigraph">
   <blockquote>
     <p>mene mene tekel upharsin</p>
   </blockquote>
-</div>
 </div>
