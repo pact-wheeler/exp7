@@ -1,0 +1,1028 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>increment</title>
+<style>
+  /* Layout and styling modeled on Aldine's Textual CSS (FoxPro / Turbo Vision). */
+  :root {
+    /* Default theme is "Slate"; the Colors tab (F1) overrides these at runtime. */
+    --bg: #3b4048; --bar: #8d949d; --bar-fg: #15171a; --fg: #e4e6e8; --accent: #e3c77f;
+    --field: #1f2328; --field2: #2c3139; --dim: #9aa1a9; --hot: #7c1d1d; --shadow: #181b1f;
+    --red: #ff6b6b;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    background: var(--bg); color: var(--fg);
+    font: 15px/1.45 "Cascadia Mono", Consolas, "Lucida Console", "Courier New", monospace;
+    overflow: hidden;
+  }
+  [hidden] { display: none !important; }
+  .screen { display: flex; flex-direction: column; height: 100vh; }
+
+  .bar { background: var(--bar); color: var(--bar-fg); padding: 2px 12px; white-space: nowrap; overflow: hidden; display: flex; gap: 22px; align-items: center; flex: none; }
+  .bar .brand { font-weight: bold; }
+  .k { color: var(--hot); font-weight: bold; }
+  .spacer { flex: 1; }
+  #status-msg.err { color: var(--hot); font-weight: bold; }
+
+  /* Windows: double white border, title sitting on the top edge, hard black shadow */
+  .win { position: relative; border: 4px double var(--fg); padding: 18px 14px 12px; box-shadow: 10px 10px 0 var(--shadow); background: var(--bg); }
+  .wtitle { position: absolute; top: -0.85em; left: 50%; transform: translateX(-50%); background: var(--bg); padding: 0 8px; color: var(--fg); font-weight: bold; white-space: nowrap; max-width: 90%; overflow: hidden; text-overflow: ellipsis; }
+
+  label, .lbl { color: var(--accent); }
+  input[type=text], input[type=number], select {
+    background: var(--field); color: var(--fg); border: none; font: inherit; padding: 2px 6px; outline: none; border-radius: 0;
+  }
+  input:focus, select:focus { background: var(--field2); box-shadow: inset 0 -2px 0 var(--accent); }
+  input.bad { color: var(--red); }
+
+  button {
+    background: var(--bar); color: var(--bar-fg); border: none; font: inherit; padding: 2px 10px; cursor: pointer;
+    box-shadow: 3px 3px 0 var(--shadow); border-radius: 0;
+  }
+  button:hover, button:focus-visible { background: var(--accent); color: var(--field); outline: none; }
+  button:active { transform: translate(3px, 3px); box-shadow: none; }
+  button.primary { background: var(--fg); color: var(--field); font-weight: bold; }
+  button.primary:hover, button.primary:focus-visible { background: var(--accent); }
+  button.mini { padding: 0 6px; box-shadow: 2px 2px 0 var(--shadow); }
+
+  /* [X] checkboxes */
+  .chk { cursor: pointer; user-select: none; color: var(--fg); display: inline-flex; gap: 8px; }
+  .chk input { position: absolute; opacity: 0; pointer-events: none; }
+  .chk span::before { content: "[ ]"; color: var(--fg); margin-right: 1ch; }
+  .chk input:checked + span::before { content: "[X]"; color: var(--accent); }
+  .chk input:focus-visible + span::before { background: var(--field2); }
+
+  /* ---- Setup ---- */
+  #setup main { flex: 1; min-height: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 34px; padding: 28px 30px 30px; overflow: auto; }
+  .col { display: flex; flex-direction: column; gap: 12px; min-height: 0; }
+  .list { background: var(--field); flex: 1; min-height: 220px; overflow: auto; padding: 4px 0; }
+  .frow { display: grid; grid-template-columns: 3ch 1fr auto auto auto; gap: 10px; padding: 1px 10px; cursor: pointer; align-items: center; }
+  .frow:hover, .frow:focus-visible { background: var(--bar); color: var(--bar-fg); outline: none; }
+  .frow:hover .cnt, .frow:focus-visible .cnt { color: var(--bar-fg); }
+  .frow .box { color: var(--fg); }
+  .frow.on .box { color: var(--accent); }
+  .frow:hover .box, .frow:focus-visible .box { color: var(--bar-fg); }
+  .frow .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .frow .cnt { color: var(--dim); }
+  .frow select { padding: 0 4px; font-size: 13px; }
+  .frow .cnt.warn { color: var(--red); }
+  .empty { color: var(--dim); padding: 10px 12px; white-space: pre-wrap; }
+  .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .hint { color: var(--dim); }
+
+  .sets { background: var(--field); padding: 6px 0; max-height: 300px; overflow: auto; }
+  .srow { display: grid; grid-template-columns: 7ch 6ch 2ch 8ch 1fr auto; gap: 8px; align-items: center; padding: 2px 10px; }
+  .srow .n { color: var(--dim); }
+  .srow input { width: 100%; background: var(--field2); }
+  .srow .sum { color: var(--dim); text-align: right; }
+  .srow .ctl { display: flex; gap: 6px; }
+  .total { color: var(--accent); font-weight: bold; }
+  .startrow { margin-top: auto; display: flex; justify-content: center; padding-top: 8px; }
+  .startrow button { font-size: 18px; padding: 6px 26px; }
+  hr.sep { border: none; border-top: 1px solid var(--dim); margin: 2px 0; opacity: .6; }
+
+  /* ---- Run ---- */
+  #run .bar.top { font-size: 16px; padding: 4px 14px; }
+  .bigtime { font-size: 30px; font-weight: bold; line-height: 1; letter-spacing: 1px; }
+  .bigtime.low { color: var(--hot); }
+  .bigtime.blink { animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { visibility: hidden; } }
+  .flag { background: var(--field); color: var(--accent); padding: 0 6px; }
+  .stage { flex: 1; min-height: 0; margin: 22px 26px 8px; padding: 10px; }
+  .viewport { position: relative; width: 100%; height: 100%; background: #111; overflow: hidden; }
+  .viewport img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; transition: filter .15s; }
+  .viewport img.flip { transform: scaleX(-1); }
+  .viewport img.gray { filter: grayscale(1); }
+  .breakbox { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--bg); gap: 10px; text-align: center; }
+  .breakbox .t { color: var(--accent); font-size: 28px; font-weight: bold; }
+  .breakbox .s { font-size: 18px; }
+  .breakbox .c { font-size: 64px; font-weight: bold; }
+  .paused { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); background: var(--bar); color: var(--bar-fg); padding: 6px 22px; font-weight: bold; font-size: 20px; box-shadow: 6px 6px 0 var(--shadow); }
+  .progress { margin: 0 26px 12px; color: var(--accent); white-space: pre; overflow: hidden; flex: none; }
+  .progress .empty-part { color: var(--field2); }
+
+  /* ---- Recap ---- */
+  #recap .win { flex: 1; min-height: 0; margin: 28px 30px 30px; display: flex; flex-direction: column; gap: 12px; }
+  .grid { flex: 1; min-height: 0; overflow: auto; background: var(--field); padding: 12px; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; align-content: start; }
+  .tile { cursor: pointer; border: 1px solid var(--field2); background: var(--field2); }
+  .tile:hover { border-color: var(--accent); }
+  .tile img { display: block; width: 100%; aspect-ratio: 3 / 4; object-fit: cover; }
+  .tile .cap { font-size: 12px; padding: 2px 6px; color: var(--dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  /* ---- Modals ---- */
+  .modal { position: fixed; inset: 0; background: rgba(0,0,0,.35); display: flex; align-items: center; justify-content: center; z-index: 10; }
+  .modal .win { width: min(680px, 92vw); max-height: 88vh; overflow: auto; }
+  .modal pre { margin: 0; font: inherit; white-space: pre-wrap; }
+  .tabs { display: flex; gap: 12px; margin-bottom: 14px; }
+  .tab.on { background: var(--accent); color: var(--field); font-weight: bold; }
+  .themes { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; margin: 8px 0 16px; }
+  .theme { display: flex; align-items: center; gap: 10px; text-align: left; }
+  .theme.on { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .sw { display: inline-flex; width: 46px; height: 18px; padding: 3px; gap: 3px; border: 1px solid #000; flex: none; }
+  .sw i { flex: 1; }
+  .cgrid { display: grid; grid-template-columns: 1fr auto; gap: 6px 14px; align-items: center; margin: 8px 0 12px; }
+  .cgrid input[type=color] { width: 54px; height: 24px; padding: 0; border: 1px solid var(--fg); background: none; cursor: pointer; }
+  .modal .actions { display: flex; justify-content: center; margin-top: 14px; }
+  #lightbox .win { width: 92vw; height: 85vh; display: flex; flex-direction: column; gap: 10px; }
+  #lightbox .lb-body { flex: 1; min-height: 0; display: flex; gap: 14px; }
+  #lightbox .viewport { flex: 1; }
+  .checks { background: var(--field); padding: 10px 14px; overflow: auto; }
+  #lightbox .checks { width: 340px; flex: none; }
+  .checks ul { margin: 4px 0 14px; padding-left: 18px; }
+  .checks li { margin-bottom: 6px; }
+  .checks li b { color: var(--accent); font-weight: normal; }
+  #tab-review p { margin: 0 0 12px; }
+  @media (max-width: 860px) { #lightbox .lb-body { flex-direction: column; } #lightbox .checks { width: auto; max-height: 40%; } }
+
+  @media (max-width: 860px) {
+    #setup main { grid-template-columns: 1fr; padding: 24px 16px; }
+    .stage { margin: 18px 12px 8px; }
+    .progress { margin: 0 12px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ========== SETUP ========== -->
+<div id="setup" class="screen">
+  <div class="bar top">
+    <span class="brand">increment</span>
+    <span><span class="k">A</span> Add folder</span>
+    <span><span class="k">Enter</span> Start</span>
+    <span><span class="k">F1</span> Help</span>
+    <span><span class="k">F2</span> Colors</span>
+    <span><span class="k">F3</span> Review</span>
+  </div>
+  <main>
+    <section class="win col">
+      <div class="wtitle">Reference Folders</div>
+      <div class="list" id="folder-list"></div>
+      <div class="row">
+        <button id="add-folder">Add Folder...</button>
+        <button id="all-on" class="mini">All</button>
+        <button id="all-off" class="mini">None</button>
+        <span class="spacer"></span>
+        <label class="chk"><input type="checkbox" id="opt-sub"><span>Include subfolders</span></label>
+      </div>
+      <div class="hint" id="pool-line"></div>
+    </section>
+
+    <section class="win col">
+      <div class="wtitle">Session</div>
+      <div class="row">
+        <label for="preset">Preset</label>
+        <select id="preset" style="flex:1"></select>
+        <button id="del-preset" class="mini" title="Delete this saved preset" hidden>Del</button>
+      </div>
+      <div class="sets" id="sets"></div>
+      <div class="row">
+        <span class="lbl">Add set</span>
+        <button class="mini qa" data-s="30">0:30</button>
+        <button class="mini qa" data-s="45">0:45</button>
+        <button class="mini qa" data-s="60">1:00</button>
+        <button class="mini qa" data-s="120">2:00</button>
+        <button class="mini qa" data-s="300">5:00</button>
+        <button class="mini qa" data-s="0">Untimed</button>
+        <button class="mini" id="add-custom">Custom</button>
+      </div>
+      <div class="hint">Times: 30 = seconds, 1:30, 2m, 1m30s, or "untimed"</div>
+      <hr class="sep">
+      <div class="row">
+        <label for="opt-break">Break between poses</label>
+        <input type="number" id="opt-break" min="0" max="60" style="width:6ch"> <span class="hint">sec</span>
+        <span class="spacer"></span>
+        <label class="chk"><input type="checkbox" id="opt-beep"><span>Beep last 3 sec</span></label>
+      </div>
+      <div class="row">
+        <label for="preset-name">Save as preset</label>
+        <input type="text" id="preset-name" placeholder="name" style="flex:1">
+        <button id="save-preset" class="mini">Save</button>
+      </div>
+      <div class="total" id="total-line"></div>
+      <div class="startrow"><button class="primary" id="start">&lt; Start Session &gt;</button></div>
+    </section>
+  </main>
+  <div class="bar bottom">
+    <span id="status-msg">Ready.</span>
+    <span class="spacer"></span>
+    <span>Images stay on this computer</span>
+  </div>
+  <input type="file" id="fallback-input" webkitdirectory multiple hidden>
+</div>
+
+<!-- ========== RUN ========== -->
+<div id="run" class="screen" hidden>
+  <div class="bar top">
+    <span class="brand">increment</span>
+    <span id="r-set"></span>
+    <span id="r-pose"></span>
+    <span id="r-flags"></span>
+    <span class="spacer"></span>
+    <span id="r-time" class="bigtime">0:00</span>
+  </div>
+  <div class="win stage">
+    <div class="wtitle" id="r-name"></div>
+    <div class="viewport">
+      <img id="r-img" alt="">
+      <div class="breakbox" id="r-break" hidden>
+        <div class="t" id="b-title"></div>
+        <div class="s" id="b-sub"></div>
+        <div class="c" id="b-count"></div>
+      </div>
+      <div class="paused" id="r-paused" hidden>** PAUSED **</div>
+    </div>
+  </div>
+  <div class="progress" id="r-prog"></div>
+  <div class="bar bottom">
+    <span><span class="k">Space</span> Pause</span>
+    <span><span class="k">&larr;</span> Prev</span>
+    <span><span class="k">&rarr;</span> Skip</span>
+    <span><span class="k">F</span> Flip</span>
+    <span><span class="k">G</span> Gray</span>
+    <span><span class="k">Esc</span> End</span>
+    <span class="spacer"></span>
+    <span id="r-overall"></span>
+  </div>
+</div>
+
+<!-- ========== RECAP ========== -->
+<div id="recap" class="screen" hidden>
+  <div class="bar top">
+    <span class="brand">increment</span>
+    <span><span class="k">R</span> Run again</span>
+    <span><span class="k">Esc</span> Back to setup</span>
+  </div>
+  <section class="win">
+    <div class="wtitle">Session Complete</div>
+    <div class="total" id="recap-line"></div>
+    <div class="grid" id="recap-grid"></div>
+    <div class="row" style="justify-content:center">
+      <button class="primary" id="again">&lt; Run Again &gt;</button>
+      <button id="back">&lt; Back to Setup &gt;</button>
+    </div>
+  </section>
+  <div class="bar bottom"><span>Click a thumbnail to view it large.</span></div>
+</div>
+
+<!-- ========== MODALS ========== -->
+<div class="modal" id="help" hidden>
+  <div class="win">
+    <div class="wtitle" id="help-title">Help</div>
+    <div class="tabs">
+      <button class="tab on" data-tab="help">Help</button>
+      <button class="tab" data-tab="review">Review</button>
+      <button class="tab" data-tab="colors">Colors</button>
+    </div>
+    <div id="tab-help">
+<pre><span class="lbl">HOW IT WORKS</span>
+Add folders of reference photos, tick the ones you want, build a
+session out of sets, then press Start. Each pose shows a random
+image for a fixed time. Draw the big shapes and gesture, not the
+details. When time's up, the next image appears.
+
+<span class="lbl">SETS (CLASS MODE)</span>
+A session is a list of sets that run in order, e.g.
+  10 x 0:30  ->  5 x 1:00  ->  2 x 5:00
+Start short and loose, then give yourself time on the longer ones.
+Images are shuffled across all ticked folders with no repeats
+until every image has been shown.
+
+<span class="lbl">WHILE DRAWING</span>
+  Space  pause / resume        F  mirror the image
+  &larr;      previous pose         G  grayscale (see values)
+  &rarr;      skip / next pose      Esc  end session early
+
+<span class="lbl">UNTIMED POSES</span>
+Type "untimed" as a set's time (or press [Untimed]) for slow study.
+A stopwatch counts up instead of down, and the pose stays until you
+press &rarr;. Handy after a few short warm-ups: 5 x 1:00, then untimed.
+
+<span class="lbl">FOLDERS</span>
+Folders are remembered between visits. Chrome may ask you to allow
+access again after a restart; click the folder (or Start) and accept.
+Choose "Allow on every visit" to stop the prompts.
+Set each folder's subject (Figures, Animals, Objects, Scenery) so the
+recap shows the right review questions. See the Review tab (F3).
+
+<span class="lbl">PRESETS</span>
+Build the sets you want, type a name in "Save as preset" and press
+Save. It shows up under "Saved" in the Preset list. Pick a saved
+preset and press Del to remove it.</pre>
+    </div>
+    <div id="tab-review" hidden>
+      <p>After a session, click a recap thumbnail to see the reference large, with the questions for its subject beside it.
+      Set each folder's subject in the folder list (Figures, Animals, Objects, Scenery or General).</p>
+      <p><span class="lbl">How to review:</span> hold your drawing next to the reference. Squint at both so the big shapes show
+      and details drop away. Flip both: F here, and a mirror or a phone photo for your paper. Mistakes you'd stopped seeing jump out.
+      <b>Pick one question per session</b> to focus on rather than all of them, and keep dated pages so you can compare across weeks.</p>
+      <div class="checks" id="review-all"></div>
+    </div>
+    <div id="tab-colors" hidden>
+      <div class="lbl">Theme</div>
+      <div class="themes" id="theme-list"></div>
+      <div class="lbl">Fine-tune (any change makes a Custom theme)</div>
+      <div class="cgrid" id="color-inputs"></div>
+    </div>
+    <div class="actions"><button class="primary" id="help-ok">&lt; OK &gt;</button></div>
+  </div>
+</div>
+
+<div class="modal" id="mobile-note" hidden>
+  <div class="win">
+    <div class="wtitle">Desktop Only</div>
+    <p class="lbl" style="margin-top:0">increment doesn't work on phones or tablets.</p>
+    <p>It needs a desktop or laptop with Chrome or Edge: it reads folders of reference photos from your computer, and it's driven by the keyboard while you draw.</p>
+    <p>Please come back on a computer.</p>
+    <div class="actions"><button id="mobile-ok">&lt; Continue anyway &gt;</button></div>
+  </div>
+</div>
+
+<div class="modal" id="lightbox" hidden>
+  <div class="win">
+    <div class="wtitle" id="lb-name"></div>
+    <div class="lb-body">
+      <div class="viewport"><img id="lb-img" alt=""></div>
+      <aside class="checks" id="lb-checks"></aside>
+    </div>
+    <div class="row" style="justify-content:center"><button class="primary" id="lb-close">&lt; Close &gt;</button></div>
+  </div>
+</div>
+
+<script>
+"use strict";
+const $ = s => document.querySelector(s);
+const IMG_RE = /\.(jpe?g|png|webp|gif|bmp|avif)$/i;
+
+// ---------- persistence ----------
+const store = {
+  get(k, d) { try { const v = localStorage.getItem("increment." + k); return v == null ? d : JSON.parse(v); } catch { return d; } },
+  set(k, v) { try { localStorage.setItem("increment." + k, JSON.stringify(v)); } catch {} },
+};
+
+// Directory handles can't go in localStorage, so they live in IndexedDB.
+const idb = (() => {
+  let p;
+  const open = () => p ??= new Promise((res, rej) => {
+    const r = indexedDB.open("increment", 1);
+    r.onupgradeneeded = () => r.result.createObjectStore("folders", { keyPath: "id" });
+    r.onsuccess = () => res(r.result);
+    r.onerror = () => rej(r.error);
+  });
+  const tx = async (mode, fn) => {
+    const db = await open();
+    return new Promise((res, rej) => {
+      const t = db.transaction("folders", mode);
+      const req = fn(t.objectStore("folders"));
+      t.oncomplete = () => res(req && req.result);
+      t.onerror = () => rej(t.error);
+    });
+  };
+  return {
+    all: () => tx("readonly", s => s.getAll()).catch(() => []),
+    put: v => tx("readwrite", s => s.put(v)).catch(() => {}),
+    del: id => tx("readwrite", s => s.delete(id)).catch(() => {}),
+  };
+})();
+
+// ---------- time helpers ----------
+function fmt(sec) {
+  sec = Math.max(0, Math.round(sec));
+  const h = Math.floor(sec / 3600), m = Math.floor(sec / 60) % 60, s = sec % 60;
+  return (h ? h + ":" + String(m).padStart(2, "0") : m) + ":" + String(s).padStart(2, "0");
+}
+// Untimed poses are stored as secs = 0: a stopwatch counts up and you advance with the arrow key.
+const fmtDur = s => s ? fmt(s) : "untimed";
+function parseTime(str) {
+  str = String(str).trim().toLowerCase().replace(/\s+/g, "");
+  if (/^(untimed|free|none|-+|0|inf|∞)$/.test(str)) return 0;
+  let m, s = NaN;
+  if (/^\d+(\.\d+)?s?$/.test(str)) s = parseFloat(str);
+  else if ((m = str.match(/^(\d+):(\d{1,2})$/))) s = +m[1] * 60 + +m[2];
+  else if ((m = str.match(/^(\d+(?:\.\d+)?)m(?:in)?(?:(\d+)s?)?$/))) s = parseFloat(m[1]) * 60 + (+m[2] || 0);
+  if (!isFinite(s) || s < 5 || s > 3 * 3600) return null;
+  return Math.round(s);
+}
+function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+  return a;
+}
+
+// ---------- state ----------
+const BUILTIN_PRESETS = [
+  { name: "Warm-up: 20 x 0:30 (10 min)", sets: [{ count: 20, secs: 30 }] },
+  { name: "Gesture: 10 x 1:00 (10 min)", sets: [{ count: 10, secs: 60 }] },
+  { name: "Class: 30 min", sets: [{ count: 10, secs: 30 }, { count: 5, secs: 60 }, { count: 5, secs: 120 }, { count: 2, secs: 300 }] },
+  { name: "Class: 60 min", sets: [{ count: 10, secs: 30 }, { count: 10, secs: 60 }, { count: 5, secs: 120 }, { count: 3, secs: 300 }, { count: 1, secs: 900 }] },
+  { name: "Speed: 30 x 0:15", sets: [{ count: 30, secs: 15 }] },
+  { name: "Study: 5 x 1:00, then 3 untimed", sets: [{ count: 5, secs: 60 }, { count: 3, secs: 0 }] },
+];
+const S = {
+  sets: store.get("sets", BUILTIN_PRESETS[2].sets.map(s => ({ ...s }))),
+  breakSecs: store.get("breakSecs", 0),
+  beep: store.get("beep", true),
+  subfolders: store.get("subfolders", true),
+  userPresets: store.get("userPresets", []),
+};
+const saveSettings = () => {
+  store.set("sets", S.sets); store.set("breakSecs", S.breakSecs);
+  store.set("beep", S.beep); store.set("subfolders", S.subfolders); store.set("userPresets", S.userPresets);
+};
+
+let folders = []; // {id, name, handle?, items?, temp?, checked, count, status: ok|locked|scanning}
+let screen = "setup";
+
+function setStatus(msg, err) { const el = $("#status-msg"); el.textContent = msg; el.classList.toggle("err", !!err); }
+
+// ---------- review checklists ----------
+// "Any subject" applies to every drawing; each folder adds the list for its subject.
+const CHECKS_ANY = [
+  ["Big shape", "Does the overall silhouette match: height vs width, lean, the empty space around it?"],
+  ["Time", "Did you get the whole thing down, or run out partway because you started on details?"],
+  ["Seeing", "Did you draw the shapes actually in the photo, or a symbol of what you know (a generic eye, leaf, paw)?"],
+  ["Lines", "Confident single strokes, or hairy repeated ones? Ghost the motion before you commit."],
+];
+const CHECKS = {
+  general: { short: "General", label: "General", items: [] },
+  figure: { short: "Figures", label: "Figures", items: [
+    ["Line of action", "Is there one clear curve through the body, bending the same way as the pose?"],
+    ["Tilts", "Do the shoulders and hips tilt at the right angles? They often tilt opposite ways."],
+    ["Balance", "Drop a vertical line from the pit of the neck. Does it land near the weight-bearing foot, like in the photo?"],
+    ["Masses", "Are the head, ribcage and pelvis the right sizes relative to each other?"],
+  ] },
+  animal: { short: "Animals", label: "Animals", items: [
+    ["Spine", "One flowing line from head to tail that matches the curve of the pose?"],
+    ["Masses", "Ribcage, hips and head as simple overlapping forms at the right relative sizes? (A bear is mostly a huge chest-and-shoulder mass.)"],
+    ["Legs", "Do the joints bend the right way? The backward-bending \"knee\" on a hind leg is really the ankle (hock)."],
+    ["Weight", "Which legs carry the weight, and does your drawing show it?"],
+    ["Head", "Does the head meet the neck at the right angle and height?"],
+  ] },
+  construction: { short: "Objects", label: "Objects & construction", items: [
+    ["Simple forms first", "Did you start from boxes, cylinders and spheres before adding details and cuts?"],
+    ["Perspective", "Do parallel edges converge consistently toward the same vanishing points, and never spread apart?"],
+    ["Ellipses", "Is each ellipse's minor axis lined up with its cylinder's axis? Do they get fuller farther from eye level?"],
+    ["Solidity", "Do the forms feel 3D: clear overlaps, contour lines wrapping around the surface?"],
+    ["Proportion", "Compare the main dimensions to each other, not to the paper. Do they match?"],
+  ] },
+  scenery: { short: "Scenery", label: "Scenery", items: [
+    ["Eye level", "Is the horizon where it is in the photo, and does everything agree with it?"],
+    ["Value shapes", "Squint (or press G). Did you capture the 3 or 4 main light and dark masses?"],
+    ["Depth", "Overlap, things getting smaller, less contrast and detail with distance?"],
+    ["Composition", "What's the focal point and where does the eye travel? Did your drawing keep that?"],
+    ["Restraint", "Did you suggest texture (leaves, rocks, grass) instead of drawing every piece?"],
+  ] },
+};
+const checkList = items => `<ul>${items.map(([h, q]) => `<li><b>${h}:</b> ${q}</li>`).join("")}</ul>`;
+function checksHTML(subj) {
+  const c = CHECKS[subj] || CHECKS.general;
+  return (c.items.length ? `<div class="lbl">${c.label}</div>${checkList(c.items)}` : "") + `<div class="lbl">Any subject</div>${checkList(CHECKS_ANY)}`;
+}
+
+// ---------- folders ----------
+const hasPicker = "showDirectoryPicker" in window;
+const persistFolder = f => { if (f.handle) idb.put({ id: f.id, name: f.name, handle: f.handle, checked: f.checked, count: f.count, subject: f.subject }); };
+
+async function listImages(f) {
+  if (f.items) return f.items;
+  const out = [];
+  async function walk(dir, path) {
+    for await (const e of dir.values()) {
+      if (e.kind === "file" && IMG_RE.test(e.name)) out.push({ name: path + e.name, handle: e, key: f.id + "/" + path + e.name });
+      else if (e.kind === "directory" && S.subfolders) await walk(e, path + e.name + "/");
+    }
+  }
+  await walk(f.handle, "");
+  return out;
+}
+
+async function recount(f) {
+  if (f.status === "locked") return;
+  f.status = "scanning"; renderFolders();
+  try { f.count = (await listImages(f)).length; f.status = "ok"; }
+  catch { f.status = "locked"; }
+  persistFolder(f); renderFolders();
+}
+
+async function unlock(f) {
+  if (!f.handle) return true;
+  try {
+    if ((await f.handle.queryPermission({ mode: "read" })) === "granted") { f.status = "ok"; return true; }
+    const r = await f.handle.requestPermission({ mode: "read" });
+    f.status = r === "granted" ? "ok" : "locked";
+  } catch { f.status = "locked"; }
+  return f.status === "ok";
+}
+
+async function addFolder() {
+  if (!hasPicker) { $("#fallback-input").click(); return; }
+  let handle;
+  try { handle = await window.showDirectoryPicker({ id: "increment-refs", mode: "read" }); }
+  catch { return; } // cancelled
+  for (const f of folders) if (f.handle && await f.handle.isSameEntry(handle)) { setStatus(`"${handle.name}" is already in the list.`); return; }
+  const f = { id: crypto.randomUUID(), name: handle.name, handle, checked: true, count: 0, status: "ok" };
+  folders.push(f); persistFolder(f); setStatus(`Added "${f.name}".`);
+  recount(f);
+}
+
+// Firefox/Safari: no persistent folder access, so folders last for this visit only.
+$("#fallback-input").addEventListener("change", e => {
+  const groups = {};
+  for (const file of e.target.files) {
+    if (!IMG_RE.test(file.name)) continue;
+    const parts = (file.webkitRelativePath || file.name).split("/");
+    if (!S.subfolders && parts.length > 2) continue;
+    (groups[parts[0]] ??= []).push(file);
+  }
+  for (const [name, files] of Object.entries(groups)) {
+    const id = crypto.randomUUID();
+    folders.push({ id, name, temp: true, checked: true, status: "ok", count: files.length,
+      items: files.map(file => ({ name: file.webkitRelativePath, file, key: id + "/" + file.webkitRelativePath })) });
+  }
+  e.target.value = "";
+  renderFolders();
+  setStatus("Added. This browser can't remember folders; use Chrome or Edge to keep them.");
+});
+
+function renderFolders() {
+  const list = $("#folder-list");
+  if (!folders.length) {
+    list.innerHTML = `<div class="empty">No folders yet.\n\nPress A or click [Add Folder...] and pick a folder\nof reference photos. Add as many as you like,\nthen tick the ones to draw from.</div>`;
+  } else {
+    list.innerHTML = folders.map(f => {
+      const cnt = f.status === "locked" ? `<span class="cnt warn">click to allow</span>`
+        : f.status === "scanning" ? `<span class="cnt">scanning...</span>`
+        : `<span class="cnt ${f.count ? "" : "warn"}">${f.count.toLocaleString()} img${f.temp ? " (this visit)" : ""}</span>`;
+      return `<div class="frow ${f.checked ? "on" : ""}" tabindex="0" data-id="${f.id}">
+        <span class="box">${f.checked ? "[X]" : "[ ]"}</span><span class="name" title="${esc(f.name)}">${esc(f.name)}</span>${cnt}
+        <select data-subj="${f.id}" title="Subject: picks the review questions shown in the recap">${Object.entries(CHECKS).map(([k, c]) =>
+          `<option value="${k}" ${k === (f.subject || "general") ? "selected" : ""}>${c.short}</option>`).join("")}</select>
+        <button class="mini" data-del="${f.id}" title="Remove from list (doesn't touch your files)">Del</button></div>`;
+    }).join("");
+  }
+  const on = folders.filter(f => f.checked);
+  const n = on.reduce((a, f) => a + (f.count || 0), 0);
+  $("#pool-line").textContent = on.length ? `${on.length} folder${on.length > 1 ? "s" : ""} ticked, ${n.toLocaleString()} images in pool` : "No folders ticked.";
+}
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+$("#folder-list").addEventListener("change", e => {
+  const sel = e.target.closest("[data-subj]"); if (!sel) return;
+  const f = folders.find(x => x.id === sel.dataset.subj);
+  f.subject = sel.value; persistFolder(f);
+});
+$("#folder-list").addEventListener("click", async e => {
+  if (e.target.closest("select")) return;
+  const del = e.target.closest("[data-del]");
+  if (del) {
+    const f = folders.find(x => x.id === del.dataset.del);
+    folders = folders.filter(x => x !== f); idb.del(f.id); renderFolders();
+    setStatus(`Removed "${f.name}" from the list.`);
+    return;
+  }
+  const row = e.target.closest(".frow"); if (!row) return;
+  const f = folders.find(x => x.id === row.dataset.id);
+  if (f.status === "locked") { if (await unlock(f)) { f.checked = true; recount(f); } return; }
+  f.checked = !f.checked; persistFolder(f); renderFolders();
+  $(`.frow[data-id="${f.id}"]`)?.focus();
+});
+$("#folder-list").addEventListener("keydown", e => {
+  if ((e.key === " " || e.key === "Enter") && e.target.classList.contains("frow")) { e.preventDefault(); e.stopPropagation(); e.target.click(); }
+  if (e.key === "Delete" && e.target.classList.contains("frow")) e.target.querySelector("[data-del]").click();
+});
+$("#add-folder").onclick = addFolder;
+$("#all-on").onclick = () => { folders.forEach(f => { f.checked = true; persistFolder(f); }); renderFolders(); };
+$("#all-off").onclick = () => { folders.forEach(f => { f.checked = false; persistFolder(f); }); renderFolders(); };
+$("#opt-sub").onchange = e => { S.subfolders = e.target.checked; saveSettings(); folders.filter(f => f.handle).forEach(recount); };
+
+// ---------- sets ----------
+function renderSets() {
+  $("#sets").innerHTML = S.sets.map((s, i) => `
+    <div class="srow" data-i="${i}">
+      <span class="n">Set ${i + 1}</span>
+      <input type="number" class="cnt" min="1" max="500" value="${s.count}" aria-label="Number of poses">
+      <span>x</span>
+      <input type="text" class="tm" value="${fmtDur(s.secs)}" aria-label="Time per pose">
+      <span class="sum">${fmtDur(s.count * s.secs)}</span>
+      <span class="ctl">
+        <button class="mini" data-act="up" title="Move up">&uarr;</button>
+        <button class="mini" data-act="down" title="Move down">&darr;</button>
+        <button class="mini" data-act="del" title="Remove set">x</button>
+      </span>
+    </div>`).join("") || `<div class="empty">No sets. Add one below.</div>`;
+  renderTotal();
+}
+function renderTotal() {
+  const poses = S.sets.reduce((a, s) => a + s.count, 0);
+  const secs = S.sets.reduce((a, s) => a + s.count * s.secs, 0);
+  const free = S.sets.reduce((a, s) => a + (s.secs ? 0 : s.count), 0);
+  $("#total-line").textContent = !poses ? "Total: nothing to draw yet"
+    : `Total: ${poses} poses, ${fmt(secs)} timed` + (free ? ` + ${free} untimed` : "");
+}
+$("#sets").addEventListener("input", e => {
+  const row = e.target.closest(".srow"); if (!row) return;
+  const s = S.sets[+row.dataset.i];
+  if (e.target.classList.contains("cnt")) {
+    const n = parseInt(e.target.value, 10);
+    const ok = n >= 1 && n <= 500; e.target.classList.toggle("bad", !ok);
+    if (ok) s.count = n;
+  } else {
+    const t = parseTime(e.target.value);
+    e.target.classList.toggle("bad", t == null);
+    if (t != null) s.secs = t;
+  }
+  row.querySelector(".sum").textContent = fmtDur(s.count * s.secs);
+  renderTotal(); saveSettings(); markCustom();
+});
+$("#sets").addEventListener("change", e => { if (e.target.classList.contains("tm") && !e.target.classList.contains("bad")) e.target.value = fmtDur(S.sets[+e.target.closest(".srow").dataset.i].secs); });
+$("#sets").addEventListener("click", e => {
+  const b = e.target.closest("[data-act]"); if (!b) return;
+  const i = +b.closest(".srow").dataset.i, act = b.dataset.act;
+  if (act === "del") S.sets.splice(i, 1);
+  if (act === "up" && i > 0) [S.sets[i - 1], S.sets[i]] = [S.sets[i], S.sets[i - 1]];
+  if (act === "down" && i < S.sets.length - 1) [S.sets[i + 1], S.sets[i]] = [S.sets[i], S.sets[i + 1]];
+  saveSettings(); renderSets(); markCustom();
+});
+function addSet(secs) {
+  const last = S.sets[S.sets.length - 1];
+  S.sets.push({ count: last ? last.count : 10, secs });
+  saveSettings(); renderSets(); markCustom();
+  return $("#sets").lastElementChild;
+}
+document.querySelectorAll(".qa").forEach(b => b.onclick = () => addSet(+b.dataset.s));
+$("#add-custom").onclick = () => { const row = addSet(90); const t = row.querySelector(".tm"); t.focus(); t.select(); };
+
+// presets
+function renderPresets(selected = "") {
+  const opt = (v, label) => `<option value="${esc(v)}" ${v === selected ? "selected" : ""}>${esc(label)}</option>`;
+  $("#preset").innerHTML = opt("", "(custom)") +
+    `<optgroup label="Built in">${BUILTIN_PRESETS.map((p, i) => opt("b" + i, p.name)).join("")}</optgroup>` +
+    (S.userPresets.length ? `<optgroup label="Saved">${S.userPresets.map((p, i) => opt("u" + i, p.name)).join("")}</optgroup>` : "");
+  $("#del-preset").hidden = !selected.startsWith("u");
+}
+function markCustom() { if ($("#preset").value) renderPresets(""); }
+$("#preset").onchange = e => {
+  const v = e.target.value; if (!v) return;
+  const p = (v[0] === "b" ? BUILTIN_PRESETS : S.userPresets)[+v.slice(1)];
+  S.sets = p.sets.map(s => ({ ...s }));
+  saveSettings(); renderSets(); renderPresets(v);
+};
+$("#save-preset").onclick = () => {
+  const name = $("#preset-name").value.trim();
+  if (!name) { setStatus("Type a name for the preset first.", true); $("#preset-name").focus(); return; }
+  if (!S.sets.length) { setStatus("Add at least one set first.", true); return; }
+  const i = S.userPresets.findIndex(p => p.name === name), p = { name, sets: S.sets.map(s => ({ ...s })) };
+  if (i >= 0) S.userPresets[i] = p; else S.userPresets.push(p);
+  saveSettings(); renderPresets("u" + (i >= 0 ? i : S.userPresets.length - 1));
+  $("#preset-name").value = ""; setStatus(`Saved preset "${name}".`);
+};
+$("#preset-name").addEventListener("keydown", e => { if (e.key === "Enter") { e.stopPropagation(); $("#save-preset").click(); } });
+$("#del-preset").onclick = () => {
+  const i = +$("#preset").value.slice(1);
+  const [p] = S.userPresets.splice(i, 1); saveSettings(); renderPresets(""); setStatus(`Deleted preset "${p.name}".`);
+};
+
+$("#opt-break").oninput = e => { const n = parseInt(e.target.value, 10); if (n >= 0 && n <= 60) { S.breakSecs = n; saveSettings(); } };
+$("#opt-beep").onchange = e => { S.beep = e.target.checked; saveSettings(); };
+
+// ---------- audio ----------
+let actx = null;
+function beep(freq, dur) {
+  if (!S.beep || !actx) return;
+  const o = actx.createOscillator(), g = actx.createGain();
+  o.type = "square"; o.frequency.value = freq;
+  g.gain.setValueAtTime(0.06, actx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.0001, actx.currentTime + dur);
+  o.connect(g).connect(actx.destination); o.start(); o.stop(actx.currentTime + dur);
+}
+
+// ---------- session ----------
+let R = null;
+const now = () => performance.now();
+
+async function startSession() {
+  if (R) return;
+  if (!S.sets.length) { setStatus("Add at least one set first.", true); return; }
+  const picked = folders.filter(f => f.checked);
+  if (!picked.length) { setStatus(folders.length ? "Tick at least one folder." : "Add a folder of reference photos first (press A).", true); return; }
+  for (const f of picked) if (f.status === "locked") await unlock(f);
+  setStatus("Scanning folders...");
+  const all = [], seen = new Set();
+  for (const f of picked) {
+    if (f.status === "locked") continue;
+    try {
+      const items = await listImages(f);
+      f.count = items.length; f.status = "ok"; persistFolder(f);
+      for (const it of items) {
+        it.subject = f.subject || "general";
+        if (!seen.has(it.key)) { seen.add(it.key); all.push(it); }
+      }
+    } catch { f.status = "locked"; }
+  }
+  renderFolders();
+  if (!all.length) { setStatus("No images found in the ticked folders (or access was denied).", true); return; }
+  try { actx ??= new (window.AudioContext || window.webkitAudioContext)(); actx.resume(); } catch {}
+
+  const poses = [];
+  S.sets.forEach((s, i) => { for (let k = 0; k < s.count; k++) poses.push({ set: i, n: k + 1, of: s.count, dur: s.secs }); });
+  R = { poses, all, pool: shuffle(all.slice()), shown: [], idx: -1, phase: "", next: 0, endAt: 0, total: 1,
+        paused: false, pausedRem: 0, lastBeep: 0, flip: false, gray: false, sets: S.sets.map(s => ({ ...s })), timer: 0 };
+  setStatus(all.length < poses.length ? `Only ${all.length} images for ${poses.length} poses; some will repeat.` : "Ready.");
+  show("run");
+  renderFlags();
+  advance(0);
+  R.timer = setInterval(tick, 100);
+}
+
+function drawImage() {
+  if (!R.pool.length) {
+    R.pool = shuffle(R.all.slice());
+    const last = R.shown[R.shown.length - 1]?.item;
+    if (R.pool.length > 1 && R.pool[R.pool.length - 1] === last) [R.pool[0], R.pool[R.pool.length - 1]] = [R.pool[R.pool.length - 1], R.pool[0]];
+  }
+  return R.pool.pop();
+}
+async function imageFor(i) {
+  const sh = R.shown[i] ??= { item: drawImage(), spent: 0, url: null, pose: R.poses[i] };
+  if (!sh.url) {
+    const it = sh.item;
+    sh.url = it.url || URL.createObjectURL(it.file || await it.handle.getFile());
+  }
+  return sh;
+}
+function preload(i) { if (R && i < R.poses.length) imageFor(i).then(sh => { new Image().src = sh.url; }).catch(() => {}); }
+
+function remaining() { return R.paused ? R.pausedRem : (R.endAt - now()) / 1000; }
+
+function advance(i) {
+  if (i >= R.poses.length) return endSession();
+  const p = R.poses[i], prev = R.poses[i - 1];
+  if (!prev || prev.set !== p.set) {
+    const s = R.sets[p.set];
+    enterBreak(i, Math.max(S.breakSecs, 5),i === 0 ? "GET READY" : `SET ${p.set + 1} OF ${R.sets.length}`,
+      `${i === 0 ? `Set 1 of ${R.sets.length}: ` : ""}${s.count} x ${fmtDur(s.secs)}`);
+  } else if (S.breakSecs > 0) {
+    enterBreak(i, S.breakSecs, "NEXT POSE", fmtDur(p.dur));
+  } else enterPose(i);
+}
+
+function enterBreak(next, secs, title, sub) {
+  R.phase = "break"; R.next = next; R.total = secs; R.endAt = now() + secs * 1000; R.lastBeep = 0;
+  setPaused(false);
+  $("#b-title").textContent = title; $("#b-sub").textContent = sub;
+  $("#r-break").hidden = false; $("#r-img").hidden = true;
+  $("#r-name").textContent = "Break";
+  renderRunBar(R.poses[next], next);
+  preload(next);
+  tick();
+}
+
+let loadToken = 0;
+async function enterPose(i) {
+  R.phase = "pose"; R.idx = i; const p = R.poses[i];
+  R.total = p.dur; R.endAt = now() + p.dur * 1000; R.visitStart = p.dur; R.lastBeep = 0;
+  setPaused(false);
+  $("#r-break").hidden = true;
+  renderRunBar(p, i);
+  const token = ++loadToken;
+  try {
+    const sh = await imageFor(i);
+    if (token !== loadToken) return;
+    const img = $("#r-img");
+    img.hidden = false; img.src = sh.url;
+    $("#r-name").textContent = sh.item.name;
+  } catch {
+    if (R && token === loadToken) { R.shown[i] = null; enterPose(i); } // file vanished: draw another
+  }
+  preload(i + 1);
+  tick();
+}
+$("#r-img").addEventListener("error", () => {
+  if (!R || R.phase !== "pose" || !$("#r-img").getAttribute("src")) return;
+  R.shown[R.idx] = null; enterPose(R.idx); // unreadable image: swap it
+});
+
+function leavePose() {
+  if (R.phase !== "pose") return;
+  const sh = R.shown[R.idx];
+  const rem = remaining();
+  if (sh) sh.spent += R.visitStart ? Math.max(0, R.visitStart - Math.max(0, rem)) : Math.max(0, -rem);
+  R.phase = "";
+}
+
+function tick() {
+  if (!R) return;
+  const rem = remaining();
+  const free = R.phase === "pose" && !R.total; // untimed: endAt is the start, so rem runs negative
+  const t = $("#r-time");
+  if (R.phase === "break") $("#b-count").textContent = Math.max(0, Math.ceil(rem));
+  t.textContent = free ? fmt(Math.floor(-rem)) : fmt(Math.ceil(Math.max(0, rem)));
+  t.classList.toggle("low", !free && R.phase === "pose" && rem <= 5);
+  renderProgress(free ? 0 : 1 - Math.max(0, rem) / R.total);
+  if (R.paused || free) return;
+  const whole = Math.ceil(rem);
+  if (whole >= 1 && whole <= 3 && whole !== R.lastBeep) { R.lastBeep = whole; beep(R.phase === "pose" ? 660 : 520, 0.07); }
+  if (rem <= 0) {
+    if (R.phase === "pose") { beep(440, 0.3); leavePose(); advance(R.idx + 1); }
+    else if (R.phase === "break") enterPose(R.next);
+  }
+}
+
+function renderRunBar(p, i) {
+  $("#r-set").textContent = `SET ${p.set + 1}/${R.sets.length}`;
+  $("#r-pose").textContent = `POSE ${p.n}/${p.of} @ ${p.dur ? fmt(p.dur) : "UNTIMED (→ when done)"}`;
+  $("#r-overall").textContent = `${i + 1} of ${R.poses.length} poses`;
+}
+function renderFlags() {
+  $("#r-flags").innerHTML = (R.flip ? `<span class="flag">FLIP</span> ` : "") + (R.gray ? `<span class="flag">GRAY</span>` : "");
+  $("#r-img").classList.toggle("flip", R.flip);
+  $("#r-img").classList.toggle("gray", R.gray);
+}
+
+let charW = 0;
+function renderProgress(frac) {
+  const el = $("#r-prog");
+  if (!charW) { const s = document.createElement("span"); s.textContent = "█".repeat(20); el.append(s); charW = s.getBoundingClientRect().width / 20 || 9; s.remove(); }
+  const n = Math.max(10, Math.floor(el.clientWidth / charW));
+  const fill = Math.round(Math.min(1, Math.max(0, frac)) * n);
+  el.innerHTML = "█".repeat(fill) + `<span class="empty-part">${"░".repeat(n - fill)}</span>`;
+}
+window.addEventListener("resize", () => { charW = 0; });
+
+function setPaused(on) {
+  if (!R) return;
+  if (on && !R.paused) { R.pausedRem = (R.endAt - now()) / 1000; R.paused = true; }
+  else if (!on && R.paused) { R.endAt = now() + R.pausedRem * 1000; R.paused = false; }
+  $("#r-paused").hidden = !R.paused;
+  $("#r-time").classList.toggle("blink", R.paused);
+}
+function prevPose() {
+  if (R.phase === "break") return enterPose(Math.max(0, R.next - 1));
+  leavePose(); enterPose(Math.max(0, R.idx - 1));
+}
+function skipPose() {
+  if (R.phase === "break") return enterPose(R.next);
+  leavePose(); advance(R.idx + 1);
+}
+
+function endSession() {
+  if (!R) return;
+  leavePose();
+  clearInterval(R.timer);
+  const done = R.shown.filter(sh => sh && sh.spent >= 1);
+  const secs = done.reduce((a, sh) => a + sh.spent, 0);
+  $("#recap-line").textContent = done.length
+    ? `${done.length} pose${done.length > 1 ? "s" : ""} drawn, ${fmt(secs)} of drawing. Nice work.`
+    : "Session ended before any poses were drawn.";
+  $("#recap-grid").innerHTML = done.map((sh, i) =>
+    `<div class="tile" data-i="${i}" title="${esc(sh.item.name)}"><img src="${sh.url}" alt="" loading="lazy"><div class="cap">${fmt(sh.spent)}${sh.pose.dur ? " / " + fmt(sh.pose.dur) : " untimed"}</div></div>`).join("");
+  $("#recap-grid").onclick = e => {
+    const t = e.target.closest(".tile"); if (!t) return;
+    const sh = done[+t.dataset.i];
+    $("#lb-img").src = sh.url; $("#lb-name").textContent = sh.item.name;
+    $("#lb-checks").innerHTML = `<p class="hint" style="margin-top:0">Hold your drawing next to this. Squint at both, then flip both.</p>` + checksHTML(sh.item.subject);
+    $("#lb-img").className = (R?.flip ? "flip " : "") + (R?.gray ? "gray" : "");
+    $("#lightbox").hidden = false;
+  };
+  R.done = true;
+  show("recap");
+}
+function cleanupSession() {
+  if (!R) return;
+  for (const sh of R.shown) if (sh?.url && !sh.item.url) URL.revokeObjectURL(sh.url);
+  $("#r-img").removeAttribute("src");
+  R = null;
+}
+
+$("#again").onclick = () => { cleanupSession(); startSession(); };
+$("#back").onclick = () => { cleanupSession(); show("setup"); setStatus("Ready."); };
+$("#start").onclick = startSession;
+
+// ---------- colors ----------
+const THEMES = {
+  "Slate":          { bg: "#3b4048", bar: "#8d949d", "bar-fg": "#15171a", fg: "#e4e6e8", accent: "#e3c77f", field: "#1f2328", field2: "#2c3139", dim: "#9aa1a9", hot: "#7c1d1d", shadow: "#181b1f" },
+  "Charcoal":       { bg: "#26282b", bar: "#4a4e54", "bar-fg": "#e8e8e8", fg: "#d8d8d8", accent: "#9cc3d5", field: "#16181a", field2: "#33363a", dim: "#8b8f94", hot: "#f0a868", shadow: "#0e0f10" },
+  "Gray Dialog":    { bg: "#b4b4b4", bar: "#4d4d4d", "bar-fg": "#f0f0f0", fg: "#141414", accent: "#1b2a8a", field: "#ececec", field2: "#d4d4d4", dim: "#484848", hot: "#ffd75e", shadow: "#6a6a6a" },
+  "Muted Navy":     { bg: "#2f3a52", bar: "#7f93a8", "bar-fg": "#10151d", fg: "#e2e6ec", accent: "#e6cf8a", field: "#1a2130", field2: "#28324a", dim: "#97a3b3", hot: "#7a1f1f", shadow: "#121722" },
+  "Classic Blue":   { bg: "#0000aa", bar: "#00aaaa", "bar-fg": "#000000", fg: "#ffffff", accent: "#ffff55", field: "#000000", field2: "#000055", dim: "#aaaaaa", hot: "#aa0000", shadow: "#000000" },
+  "Green Phosphor": { bg: "#0b130d", bar: "#1f3a26", "bar-fg": "#9fe0a8", fg: "#9fe0a8", accent: "#d6ffb0", field: "#000000", field2: "#12261a", dim: "#5c8a64", hot: "#ffffff", shadow: "#000000" },
+  "Amber":          { bg: "#1a1206", bar: "#3a2810", "bar-fg": "#ffb84d", fg: "#ffb84d", accent: "#ffd890", field: "#000000", field2: "#2a1c08", dim: "#a07330", hot: "#ffffff", shadow: "#000000" },
+};
+const COLOR_KEYS = [["bg", "Background"], ["bar", "Menu bars & buttons"], ["bar-fg", "Text on bars"], ["fg", "Text & borders"],
+  ["accent", "Labels & highlights"], ["field", "Fields & lists"], ["field2", "Field focus"], ["dim", "Dim text"],
+  ["hot", "Key letters & warnings"], ["shadow", "Shadows"]];
+let theme = store.get("theme", { name: "Slate", colors: THEMES.Slate });
+function applyTheme() {
+  for (const [k] of COLOR_KEYS) if (theme.colors[k]) document.documentElement.style.setProperty("--" + k, theme.colors[k]);
+}
+function renderColors() { renderThemeList(); renderColorInputs(); }
+function renderThemeList() {
+  const names = Object.keys(THEMES).concat(theme.name === "Custom" ? ["Custom"] : []);
+  $("#theme-list").innerHTML = names.map(n => {
+    const c = n === "Custom" ? theme.colors : THEMES[n];
+    return `<button class="theme ${n === theme.name ? "on" : ""}" data-theme="${esc(n)}">
+      <span class="sw" style="background:${c.bg}"><i style="background:${c.bar}"></i><i style="background:${c.accent}"></i><i style="background:${c.field}"></i></span>${esc(n)}</button>`;
+  }).join("");
+}
+function renderColorInputs() {
+  $("#color-inputs").innerHTML = COLOR_KEYS.map(([k, label]) =>
+    `<label for="c-${k}">${label}</label><input type="color" id="c-${k}" data-key="${k}" value="${theme.colors[k]}">`).join("");
+}
+$("#theme-list").addEventListener("click", e => {
+  const b = e.target.closest("[data-theme]"); if (!b) return;
+  const n = b.dataset.theme;
+  if (n !== "Custom") theme = { name: n, colors: { ...THEMES[n] } };
+  store.set("theme", theme); applyTheme(); renderColors();
+  $(`[data-theme="${n}"]`)?.focus();
+});
+$("#color-inputs").addEventListener("input", e => {
+  const k = e.target.dataset.key; if (!k) return;
+  theme = { name: "Custom", colors: { ...theme.colors, [k]: e.target.value } };
+  store.set("theme", theme); applyTheme();
+  renderThemeList(); // leave the inputs alone so an open color picker stays open
+});
+applyTheme();
+
+// ---------- screens + keys ----------
+function show(name) {
+  screen = name;
+  for (const id of ["setup", "run", "recap"]) $("#" + id).hidden = id !== name;
+}
+function openHelp(tab = "help") {
+  $("#help").hidden = false;
+  document.querySelectorAll(".tab").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
+  for (const t of ["help", "review", "colors"]) $("#tab-" + t).hidden = t !== tab;
+  $("#help-title").textContent = { help: "Help", review: "Review", colors: "Colors" }[tab];
+  if (tab === "review") $("#review-all").innerHTML = Object.values(CHECKS).filter(c => c.items.length)
+    .map(c => `<div class="lbl">${c.label}</div>${checkList(c.items)}`).join("") + `<div class="lbl">Any subject</div>${checkList(CHECKS_ANY)}`;
+  if (tab === "colors") renderColors();
+  $("#help-ok").focus();
+}
+document.querySelectorAll(".tab").forEach(b => b.onclick = () => openHelp(b.dataset.tab));
+$("#help-ok").onclick = () => { $("#help").hidden = true; };
+$("#lb-close").onclick = () => { $("#lightbox").hidden = true; };
+
+document.addEventListener("keydown", e => {
+  const modal = !$("#help").hidden ? $("#help") : !$("#lightbox").hidden ? $("#lightbox") : !$("#mobile-note").hidden ? $("#mobile-note") : null;
+  if (modal) { if (e.key === "Escape" || e.key === "Enter") { e.preventDefault(); modal.hidden = true; } return; }
+  if (e.key === "F1") { e.preventDefault(); openHelp(); return; }
+  if (e.key === "F2") { e.preventDefault(); openHelp("colors"); return; }
+  if (e.key === "F3") { e.preventDefault(); openHelp("review"); return; }
+  const k = e.key.toLowerCase();
+  if (screen === "setup") {
+    const tag = document.activeElement?.tagName;
+    if (tag === "INPUT" || tag === "SELECT" || tag === "TEXTAREA") { if (e.key === "Escape") document.activeElement.blur(); return; }
+    if (tag === "BUTTON" && (e.key === "Enter" || e.key === " ")) return;
+    if (k === "a" && !e.ctrlKey && !e.metaKey) { e.preventDefault(); addFolder(); }
+    else if (e.key === "Enter") { e.preventDefault(); startSession(); }
+    else if (e.key === "?") openHelp();
+  } else if (screen === "run" && R) {
+    if (e.key === " ") { e.preventDefault(); setPaused(!R.paused); tick(); }
+    else if (e.key === "ArrowLeft") { e.preventDefault(); prevPose(); }
+    else if (e.key === "ArrowRight") { e.preventDefault(); skipPose(); }
+    else if (k === "f") { R.flip = !R.flip; renderFlags(); }
+    else if (k === "g") { R.gray = !R.gray; renderFlags(); }
+    else if (e.key === "Escape") { e.preventDefault(); endSession(); }
+  } else if (screen === "recap") {
+    if (e.key === "Escape") $("#back").click();
+    else if (k === "r") $("#again").click();
+  }
+});
+
+// ---------- boot ----------
+// Phones and tablets (iPadOS reports itself as a Mac, so also check for touch points).
+const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)
+  || (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
+$("#mobile-ok").onclick = () => { $("#mobile-note").hidden = true; };
+if (isMobile) $("#mobile-note").hidden = false;
+
+(async function boot() {
+  $("#opt-sub").checked = S.subfolders;
+  $("#opt-break").value = S.breakSecs;
+  $("#opt-beep").checked = S.beep;
+  renderPresets(""); renderSets();
+  const saved = await idb.all();
+  folders = saved.map(f => ({ ...f, status: "locked" }));
+  renderFolders();
+  for (const f of folders) {
+    try { if ((await f.handle.queryPermission({ mode: "read" })) === "granted") { f.status = "ok"; recount(f); } }
+    catch {}
+  }
+  renderFolders();
+  if (!hasPicker) setStatus("Tip: Chrome or Edge can remember your folders between visits.");
+})();
+
+// Lets you try the app without picking a folder: increment.addDemoFolder("Name", [imageUrls])
+window.increment = {
+  addDemoFolder(name, urls) {
+    const id = crypto.randomUUID();
+    folders.push({ id, name, temp: true, checked: true, status: "ok", count: urls.length,
+      items: urls.map((url, i) => ({ name: `${name}/image-${i + 1}`, url, key: id + "/" + i })) });
+    renderFolders();
+  },
+};
+</script>
+</body>
+</html>
